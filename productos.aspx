@@ -1,4 +1,4 @@
-<%@ Page Language="C#" Src="bin/Controllers/Productos.aspx.cs" Inherits="Controllers.Productos" %>
+<%@ Page Language="C#" Src="Controllers/Productos.aspx.cs" Inherits="Controllers.Productos" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -131,6 +131,9 @@
                                     <th>Estado</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                <asp:Literal id="listProduct" runat="server"></asp:Literal>
+                            </tbody>
                             <tfoot>
                                 <tr>
                                     <th>Id</th>

@@ -1,4 +1,4 @@
-<%@ Page Language="C#" Src="bin/Controllers/Home.aspx.cs" Inherits="Controllers.Home"%>
+<%@ Page Language="C#" Src="Controllers/Home.aspx.cs" Inherits="Controllers.Home"%>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

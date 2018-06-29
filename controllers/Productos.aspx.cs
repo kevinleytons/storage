@@ -12,9 +12,9 @@ namespace Controllers{
 	public class Productos : Page{
 
 		// Se capturan con ID de input
-		protected Literal prueba;
+		protected Literal prueba,listProduct;
 		protected string opcion;
-		
+
 		protected void Page_PreLoad(){
 			
 			try{
@@ -46,8 +46,12 @@ namespace Controllers{
 		}
 
 		protected void Page_Load(){
-
-
+			Datos.Controlador control = new Datos.Controlador();
+			control.openConexion();
+			MySqlDataReader productos = control.seleccionar("cargarProductos", null);
+			while(productos.Read()){
+				listProduct.Text += ("<tr><td>"+productos["pro_id"]+"</td><td>"+productos["pro_nombre"]+"</td><td>"+productos["pro_stock"]+"</td><td>"+productos["pro_precio"]+"</td><td>"+productos["pro_visibilidad"]+"</td><td>"+productos["pro_estado"]+"</td></tr>");
+			}	
 		}
 
 	}
