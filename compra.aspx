@@ -1,4 +1,4 @@
-<%@ Page Language="C#" Src="Controllers/Productos.aspx.cs" Inherits="Controllers.Productos" %>
+<%@ Page Language="C#" Src="Controllers/Home.aspx.cs" Inherits="Controllers.Home" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -19,9 +19,10 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
     <!-- DATATABLES CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 
     <link rel="stylesheet" type="text/css" href="assets/css/important.css">
+
 </head>
 <body>
     <div id="wrapper">
@@ -56,9 +57,9 @@
                     <li><a href="home.aspx"><i class="fas fa-home "></i>Home</a></li>
                     <li>
                         <a href="productos.aspx"><i class="fa fa-desktop "></i>Productos <span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse in">
+                        <ul class="nav nav-second-level">
                             <li><a href="producto.aspx"><i class="fas fa-plus"></i>Nuevo Producto</a></li>
-                            <li><a class="active-menu" href="productos.aspx"><i class="fas fa-store-alt"></i>Todos Los productos</a></li>
+                            <li><a href="productos.aspx"><i class="fas fa-store-alt"></i>Todos Los productos</a></li>
                             <li><a href="familias.aspx"><i class="fas fa-th"></i>Familias de Productos</a></li>
                             <li><a href="productos.aspx"><i class="far fa-list-alt"></i>Mis Activos Fijos</a></li>
                         </ul>
@@ -72,8 +73,8 @@
                     </li>
                     <li>
                         <a href="#"><i class="fas fa-shopping-basket "></i>Compras <span class="fa arrow"></span></a>
-                         <ul class="nav nav-second-level">
-                            <li><a href="compra.aspx"><i class="fas fa-plus"></i>Nueva Compra</a></li>
+                         <ul class="nav nav-second-level collapse in">
+                            <li><a class="active-menu" href="compra.aspx"><i class="fas fa-plus"></i>Nueva Compra</a></li>
                             <li><a href="compras.aspx"><i class="fas fa-archive "></i>Mis Compras</a></li>
                             <li><a href="pendientes.aspx"><i class="far fa-clock"></i>Recepcionar Compra</a></li>
                         </ul>
@@ -88,44 +89,88 @@
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">                    	
-                        <asp:Label id="titulo" runat="server"></asp:Label>
-                        <h1 class="page-head-line">Productos</h1>
-                        <h1 class="page-subhead-line">Lista con Productos</h1>
+                        <h1 class="page-head-line">Nueva Compra</h1>
+                        <h1 class="page-subhead-line">Completar Formulario Con Datos De Compra</h1>
                     </div>
                 </div><!-- /. ROW  -->
 
-                <div class="row">
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <asp:Literal id="prueba" runat="server"></asp:Literal>
+                <form action="#" method="post" runat="server">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group">
+                                <label>Tipo De Compra:</label><br>
+                                <asp:RadioButtonList id="tipo" runat="server">
+                                    <asp:ListItem Text="Chica" Value="C" />
+                                    <asp:ListItem Text="Grande" Value="G" />
+                                </asp:RadioButtonList>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6"></div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group">
+                                <label>Fecha y Hora:</label>
+                                <asp:TextBox id="fecha" type="datetime-local" class="form-control" runat="server" disabled></asp:TextBox>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <table id="tablaProductos" class="display">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Nombre</th>
-                                    <th>Stock</th>
-                                    <th>Precio</th>
-                                    <th>Visibilidad</th>
-                                    <th>Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <asp:Literal id="listProduct" runat="server"></asp:Literal>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Nombre</th>
-                                    <th>Stock</th>
-                                    <th>Precio</th>
-                                    <th>Visibilidad</th>
-                                    <th>Estado</th>
-                                </tr>
-                            </tfoot>
-                        </table>
+                    <div class="row vertical-align">
+                        <!-- INICIO PRODUCTOS -->
+                        <div class="col-lg-4 col-md-4 col-sm-5">
+                            <h3>Productos</h3>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-7">
+                            <button type="button" class="btn btn-primary" onclick="agregarProducto()"><i class="fas fa-plus"></i></button>
+                        </div>
                     </div>
-                </div>
+                    <div id="productos">
+
+                        <div id="producto1" class="row vertical-align padding-top-2">
+                            <div class="col-lg-1 col-md-1 col-sm-1">
+                                <h4 class="text-center margin">1</h4>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5">
+                                <label>Producto</label>
+                                <input name="producto" type="text" class="form-control" placeholder="Ingrese ID de producto para buscar" runat="server">
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                <label>Precio Costo</label>
+                                <input name="precio" type="number" class="form-control" placeholder="Precio"/>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1">
+                                <label>Cantidad</label>
+                                <input name="cantidad" type="number" class="form-control" placeholder="Cantidad"/>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                <label>Sub-Total</label>
+                                <input name="subTotal" type="number" class="form-control" placeholder="Sub-Total" disabled/>
+                            </div>
+                            <div class="input-field col-lg-1 col-md-1 col-sm-1"></div>
+                        </div>
+                        <!-- Crear aca contenido dinamico -->
+                    </div><!-- FIN PRODUCTOS -->
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-4"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group has-error">
+                                <label>Total</label>
+                                <input name="subTotal" type="number" class="form-control " placeholder="Total" disabled/>
+                            </div>
+                            
+                        </div>
+                    </div>    
+                    <div class="row margin">
+                        <div class="col-lg-5 col-md-5 col-sm-5"></div>
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                            <button class="btn btn-success btn-lg"><i class="fas fa-check"></i> Realizar Compra</button>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5"></div>
+                    </div>
+
+                </form>
+
+                
 
             </div><!-- /. PAGE INNER  -->
         </div><!-- /. PAGE WRAPPER  -->
@@ -144,6 +189,8 @@
     <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>
 
+    <script src="assets/js/script.js"></script>
+
     <!-- DATATABLES JQuery -->
     <!-- DATATABLES JQuery -->
     <script type="text/javascript" charset="utf8" src="assets/js/jquery.dataTables.js"></script>
@@ -161,7 +208,7 @@
                     "zeroRecords": "No se encontraron datos",
                     "infoEmpty": "No hay datos para mostrar",
                     "processing": "Procesando..",
-                    "info": "Mostrando del _START_ al _END_, de un total de _TOTAL_ productos",
+                    "info": "Mostrando del _START_ al _END_, de un total de _TOTAL_ entradas",
                     "paginate": {
                         "next": "Siguiente",
                         "previous": "Anterior"
@@ -170,7 +217,5 @@
             });
         } );
     </script>
-
-
 </body>
 </html>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Productos | Storage System</title>
+    <title>Mis Compras | Storage System</title>
 
     <!-- BOOTSTRAP STYLES-->
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
@@ -17,11 +17,8 @@
     <link href="assets/css/custom.css" rel="stylesheet" />
     <!-- GOOGLE FONTS-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-
     <!-- DATATABLES CSS -->
     <link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
-
-    <link rel="stylesheet" type="text/css" href="assets/css/important.css">
 </head>
 <body>
     <div id="wrapper">
@@ -39,7 +36,8 @@
             <div class="header-right">
                 <a href="index.aspx" class="btn btn-danger" title="Logout"><i class="fas fa-power-off fa-2x"></i></a>
 			</div>
-        </nav><!-- /. NAV TOP  -->
+        </nav>
+        <!-- /. NAV TOP  -->
 
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
@@ -56,9 +54,9 @@
                     <li><a href="home.aspx"><i class="fas fa-home "></i>Home</a></li>
                     <li>
                         <a href="productos.aspx"><i class="fa fa-desktop "></i>Productos <span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse in">
+                        <ul class="nav nav-second-level">
                             <li><a href="producto.aspx"><i class="fas fa-plus"></i>Nuevo Producto</a></li>
-                            <li><a class="active-menu" href="productos.aspx"><i class="fas fa-store-alt"></i>Todos Los productos</a></li>
+                            <li><a href="productos.aspx"><i class="fas fa-store-alt"></i>Todos Los productos</a></li>
                             <li><a href="familias.aspx"><i class="fas fa-th"></i>Familias de Productos</a></li>
                             <li><a href="productos.aspx"><i class="far fa-list-alt"></i>Mis Activos Fijos</a></li>
                         </ul>
@@ -72,9 +70,9 @@
                     </li>
                     <li>
                         <a href="#"><i class="fas fa-shopping-basket "></i>Compras <span class="fa arrow"></span></a>
-                         <ul class="nav nav-second-level">
+                         <ul class="nav nav-second-level collapse in">
                             <li><a href="compra.aspx"><i class="fas fa-plus"></i>Nueva Compra</a></li>
-                            <li><a href="compras.aspx"><i class="fas fa-archive "></i>Mis Compras</a></li>
+                            <li><a class="active-menu" href="compras.aspx"><i class="fas fa-archive "></i>Mis Compras</a></li>
                             <li><a href="pendientes.aspx"><i class="far fa-clock"></i>Recepcionar Compra</a></li>
                         </ul>
                     </li>
@@ -89,8 +87,8 @@
                 <div class="row">
                     <div class="col-md-12">                    	
                         <asp:Label id="titulo" runat="server"></asp:Label>
-                        <h1 class="page-head-line">Productos</h1>
-                        <h1 class="page-subhead-line">Lista con Productos</h1>
+                        <h1 class="page-head-line">Compras</h1>
+                        <h1 class="page-subhead-line">Lista Con Todas Las Compras Realizadas</h1>
                     </div>
                 </div><!-- /. ROW  -->
 
@@ -145,7 +143,6 @@
     <script src="assets/js/custom.js"></script>
 
     <!-- DATATABLES JQuery -->
-    <!-- DATATABLES JQuery -->
     <script type="text/javascript" charset="utf8" src="assets/js/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="assets/js/dataTables.bootstrap.min.js"></script>
 
@@ -156,12 +153,12 @@
                 "ajax": "",
                 "language": {
                     "search": "Buscar:",
-                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "lengthMenu": "Mostrar _MENU_ Ventas",
                     "loadingRecords": "Cargando Datos...",
                     "zeroRecords": "No se encontraron datos",
                     "infoEmpty": "No hay datos para mostrar",
                     "processing": "Procesando..",
-                    "info": "Mostrando del _START_ al _END_, de un total de _TOTAL_ productos",
+                    "info": "Mostrando del _START_ al _END_, de un total de _TOTAL_ ventas",
                     "paginate": {
                         "next": "Siguiente",
                         "previous": "Anterior"

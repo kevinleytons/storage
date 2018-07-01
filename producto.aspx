@@ -19,6 +19,8 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <!-- FileUpload -->
     <link href="assets/css/bootstrap-fileupload.min.css" rel="stylesheet">
+    <!--CSS IMPORTANT-->
+    <link href="assets/css/important.css" rel="stylesheet">
 </head>
 <body>
     <div id="wrapper">
@@ -38,6 +40,7 @@
 			</div>
         </nav>
         <!-- /. NAV TOP  -->
+
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
@@ -50,59 +53,37 @@
                             </div>
                         </div>
                     </li>
+                    <li><a href="home.aspx"><i class="fas fa-home "></i>Home</a></li>
                     <li>
-                        <a href="home.aspx"><i class="fas fa-home "></i>Home</a>
-                    </li>
-					<li>
                         <a href="productos.aspx"><i class="fa fa-desktop "></i>Productos <span class="fa arrow"></span></a>
-                         <ul class="nav nav-second-level">
-                            <li>
-                                <a href="producto.aspx"><i class="fas fa-plus"></i>Nuevo Producto</a>
-                            </li>
-                            <li>
-                                <a href="productos.aspx"><i class="fas fa-store-alt"></i>Todos Los productos</a>
-                            </li>
-
-                            <li>
-                                <a href="categorias.aspx"><i class="fas fa-th"></i>Todas las Categorías</a>
-                            </li>
-                            <li>
-                                <a href="productos.aspx?"><i class="far fa-list-alt"></i>Mis Activos Fijos</a>
-                            </li>
+                        <ul class="nav nav-second-level collapse in">
+                            <li><a class="active-menu" href="producto.aspx"><i class="fas fa-plus"></i>Nuevo Producto</a></li>
+                            <li><a href="productos.aspx"><i class="fas fa-store-alt"></i>Todos Los productos</a></li>
+                            <li><a href="familias.aspx"><i class="fas fa-th"></i>Familias de Productos</a></li>
+                            <li><a href="productos.aspx"><i class="far fa-list-alt"></i>Mis Activos Fijos</a></li>
                         </ul>
                     </li>
                     <li>
                         <a href="#"><i class="fas fa-shopping-cart "></i>Ventas <span class="fa arrow"></span></a>
                          <ul class="nav nav-second-level">
-                            <li>
-                                <a href="venta.aspx"><i class="fas fa-plus"></i>Nueva Venta</a>
-                            </li>
-                            <li>
-                                <a href="ventas.aspx"><i class="fas fa-archive "></i>Mis Ventas</a>
-                            </li>
+                            <li><a href="venta.aspx"><i class="fas fa-plus"></i>Nueva Venta</a></li>
+                            <li><a href="ventas.aspx"><i class="fas fa-archive "></i>Mis Ventas</a></li>
                         </ul>
                     </li>
                     <li>
                         <a href="#"><i class="fas fa-shopping-basket "></i>Compras <span class="fa arrow"></span></a>
                          <ul class="nav nav-second-level">
-                            <li>
-                                <a href="compra.aspx"><i class="fas fa-plus"></i>Nueva Compra</a>
-                            </li>
-                            <li>
-                                <a href="compras.aspx"><i class="fas fa-archive "></i>Mis Compras</a>
-                            </li>
+                            <li><a href="compra.aspx"><i class="fas fa-plus"></i>Nueva Compra</a></li>
+                            <li><a href="compras.aspx"><i class="fas fa-archive "></i>Mis Compras</a></li>
+                            <li><a href="pendientes.aspx"><i class="far fa-clock"></i>Recepcionar Compra</a></li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="clientes.aspx"><i class="fas fa-users "></i>Clientes</a>
-                    </li>
-                    <li>
-                        <a href="reportes.aspx"><i class="fa fa-flash "></i>Reportes </a>
-                    </li>
+                    <li><a href="clientes.aspx"><i class="fas fa-users "></i>Clientes</a></li>
+                    <li><a href="reportes.aspx"><i class="fa fa-flash "></i>Reportes </a></li>
                 </ul>
             </div>
-        </nav>
-        <!-- /. NAV SIDE  -->
+        </nav><!-- /. NAV SIDE  -->
+
         <div id="page-wrapper">
             <div id="page-inner">
                 <div class="row">
@@ -159,20 +140,20 @@
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="precio" class="control-label">Precio</label>
-                                <asp:TextBox id="precio" class="form-control" runat="server"></asp:TextBox>
+                                <asp:TextBox id="precio" type="number" class="form-control" runat="server"></asp:TextBox>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="costo" class="control-label">Costo</label>
-                                <asp:TextBox id="costo" class="form-control" runat="server"></asp:TextBox>
+                                <asp:TextBox id="costo" type="number" class="form-control" runat="server"></asp:TextBox>
                             </div>
                         </div>
 
                         <div class="col-lg-2 col-md-2 col-sm-2">
                             <div class="form-group">
-                                <label for="stock" class="control-label">Strock</label>
-                                <asp:TextBox id="stock" class="form-control" runat="server"></asp:TextBox>
+                                <label for="stock" class="control-label">Stock</label>
+                                <asp:TextBox id="stock" type="number" class="form-control" runat="server"></asp:TextBox>
                             </div>
                         </div>
 
@@ -180,7 +161,7 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label for="descripcion" class="control-label">Descripción de Producto</label><br>
+                                <label for="descripcion" class="control-label">Descripci�n de Producto</label><br>
                                 <asp:TextBox id="descripcion" class="form-control" TextMode="multiline" Rows="5" runat="server"></asp:TextBox>  
                             </div>
                         </div>

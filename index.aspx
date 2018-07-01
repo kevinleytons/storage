@@ -1,4 +1,4 @@
-<%@ Page Language="C#" Src="bin/Controllers/Login.aspx.cs" Inherits="Controllers.Login"%>
+<%@ Page Language="C#" Src="Controllers/Login.aspx.cs" Inherits="Controllers.Login"%>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -28,7 +28,7 @@
             <div class="panel-body">
               <form role="form" action="#" method="post" runat="server">
                   <hr />
-                  <h5>Ingrese Rut y ContraseÃ±a</h5>
+                  <h5>Ingrese Rut y Contraseña</h5>
                   <br />
                   <div class="form-group input-group">
                       <span class="input-group-addon"><i class="fa fa-tag"  ></i></span>

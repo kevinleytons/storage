@@ -1,4 +1,4 @@
-<%@ Page Language="C#" Src="bin/Controllers/Home.aspx.cs" Inherits="Controllers.Home"%>
+<%@ Page Language="C#" Src="Controllers/Home.aspx.cs" Inherits="Controllers.Home"%>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -34,8 +34,8 @@
             <div class="header-right">
                 <a href="index.aspx" class="btn btn-danger" title="Logout"><i class="fas fa-power-off fa-2x"></i></a>
 			</div>
-        </nav>
-        <!-- /. NAV TOP  -->
+        </nav><!-- /. NAV TOP  -->
+
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
@@ -54,7 +54,7 @@
                         <ul class="nav nav-second-level">
                             <li><a href="producto.aspx"><i class="fas fa-plus"></i>Nuevo Producto</a></li>
                             <li><a href="productos.aspx"><i class="fas fa-store-alt"></i>Todos Los productos</a></li>
-                            <li><a href="categorias.aspx"><i class="fas fa-th"></i>Todas las Categorías</a></li>
+                            <li><a href="familias.aspx"><i class="fas fa-th"></i>Familias de Productos</a></li>
                             <li><a href="productos.aspx"><i class="far fa-list-alt"></i>Mis Activos Fijos</a></li>
                         </ul>
                     </li>
@@ -70,14 +70,15 @@
                          <ul class="nav nav-second-level">
                             <li><a href="compra.aspx"><i class="fas fa-plus"></i>Nueva Compra</a></li>
                             <li><a href="compras.aspx"><i class="fas fa-archive "></i>Mis Compras</a></li>
+                            <li><a href="pendientes.aspx"><i class="far fa-clock"></i>Recepcionar Compra</a></li>
                         </ul>
                     </li>
                     <li><a href="clientes.aspx"><i class="fas fa-users "></i>Clientes</a></li>
                     <li><a href="reportes.aspx"><i class="fa fa-flash "></i>Reportes </a></li>
                 </ul>
             </div>
-        </nav>
-        <!-- /. NAV SIDE  -->
+        </nav><!-- /. NAV SIDE  -->
+        
         <div id="page-wrapper">
             <div id="page-inner">
                 <div class="row">
@@ -113,7 +114,5 @@
     <script src="assets/js/jquery.metisMenu.js"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>
-
-
 </body>
 </html>

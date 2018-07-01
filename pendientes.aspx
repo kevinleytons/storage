@@ -1,10 +1,10 @@
-<%@ Page Language="C#" Src="Controllers/Productos.aspx.cs" Inherits="Controllers.Productos" %>
+<%@ Page Language="C#" Src="Controllers/Home.aspx.cs" Inherits="Controllers.Home" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Productos | Storage System</title>
+    <title>Mis Ventas | Storage System</title>
 
     <!-- BOOTSTRAP STYLES-->
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
@@ -17,11 +17,8 @@
     <link href="assets/css/custom.css" rel="stylesheet" />
     <!-- GOOGLE FONTS-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-
     <!-- DATATABLES CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
-
-    <link rel="stylesheet" type="text/css" href="assets/css/important.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 </head>
 <body>
     <div id="wrapper">
@@ -39,7 +36,8 @@
             <div class="header-right">
                 <a href="index.aspx" class="btn btn-danger" title="Logout"><i class="fas fa-power-off fa-2x"></i></a>
 			</div>
-        </nav><!-- /. NAV TOP  -->
+        </nav>
+        <!-- /. NAV TOP  -->
 
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
@@ -56,9 +54,9 @@
                     <li><a href="home.aspx"><i class="fas fa-home "></i>Home</a></li>
                     <li>
                         <a href="productos.aspx"><i class="fa fa-desktop "></i>Productos <span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse in">
+                        <ul class="nav nav-second-level">
                             <li><a href="producto.aspx"><i class="fas fa-plus"></i>Nuevo Producto</a></li>
-                            <li><a class="active-menu" href="productos.aspx"><i class="fas fa-store-alt"></i>Todos Los productos</a></li>
+                            <li><a href="productos.aspx"><i class="fas fa-store-alt"></i>Todos Los productos</a></li>
                             <li><a href="familias.aspx"><i class="fas fa-th"></i>Familias de Productos</a></li>
                             <li><a href="productos.aspx"><i class="far fa-list-alt"></i>Mis Activos Fijos</a></li>
                         </ul>
@@ -72,10 +70,10 @@
                     </li>
                     <li>
                         <a href="#"><i class="fas fa-shopping-basket "></i>Compras <span class="fa arrow"></span></a>
-                         <ul class="nav nav-second-level">
+                         <ul class="nav nav-second-level collapse in">
                             <li><a href="compra.aspx"><i class="fas fa-plus"></i>Nueva Compra</a></li>
                             <li><a href="compras.aspx"><i class="fas fa-archive "></i>Mis Compras</a></li>
-                            <li><a href="pendientes.aspx"><i class="far fa-clock"></i>Recepcionar Compra</a></li>
+                            <li><a  class="active-menu" href="pendientes.aspx"><i class="far fa-clock"></i>Recepcionar Compra</a></li>
                         </ul>
                     </li>
                     <li><a href="clientes.aspx"><i class="fas fa-users "></i>Clientes</a></li>
@@ -88,9 +86,8 @@
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">                    	
-                        <asp:Label id="titulo" runat="server"></asp:Label>
-                        <h1 class="page-head-line">Productos</h1>
-                        <h1 class="page-subhead-line">Lista con Productos</h1>
+                        <h1 class="page-head-line">Compras Pendientes De Recepción</h1>
+                        <h1 class="page-subhead-line">Lista Con Compras Realizadas y Pendientes de Recepción</h1>
                     </div>
                 </div><!-- /. ROW  -->
 
@@ -99,28 +96,23 @@
                         <asp:Literal id="prueba" runat="server"></asp:Literal>
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-12">
-                        <table id="tablaProductos" class="display">
+                        <table id="tablaPendientes" class="display">
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Nombre</th>
-                                    <th>Stock</th>
-                                    <th>Precio</th>
-                                    <th>Visibilidad</th>
-                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                    <th>Cantidad De Productos</th>
+                                    <th>Tipo De Compra</th>
+                                    <th>Total</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <asp:Literal id="listProduct" runat="server"></asp:Literal>
-                            </tbody>
                             <tfoot>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Nombre</th>
-                                    <th>Stock</th>
-                                    <th>Precio</th>
-                                    <th>Visibilidad</th>
-                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                    <th>Cantidad De Productos</th>
+                                    <th>Tipo De Compra</th>
+                                    <th>Total</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -145,14 +137,13 @@
     <script src="assets/js/custom.js"></script>
 
     <!-- DATATABLES JQuery -->
-    <!-- DATATABLES JQuery -->
     <script type="text/javascript" charset="utf8" src="assets/js/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="assets/js/dataTables.bootstrap.min.js"></script>
 
     <!-- JQUERY DATA TABLES SCRIPT -->
     <script>
         $(document).ready( function () {
-            $('#tablaProductos').DataTable({
+            $('#tablaPendientes').DataTable({
                 "ajax": "",
                 "language": {
                     "search": "Buscar:",
@@ -161,7 +152,7 @@
                     "zeroRecords": "No se encontraron datos",
                     "infoEmpty": "No hay datos para mostrar",
                     "processing": "Procesando..",
-                    "info": "Mostrando del _START_ al _END_, de un total de _TOTAL_ productos",
+                    "info": "Mostrando del _START_ al _END_, de un total de _TOTAL_ entradas",
                     "paginate": {
                         "next": "Siguiente",
                         "previous": "Anterior"

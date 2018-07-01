@@ -38,6 +38,7 @@
 			</div>
         </nav>
         <!-- /. NAV TOP  -->
+
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
@@ -50,61 +51,37 @@
                             </div>
                         </div>
                     </li>
+                    <li><a href="home.aspx"><i class="fas fa-home "></i>Home</a></li>
                     <li>
-                        <a href="home.aspx"><i class="fas fa-home "></i>Home</a>
-                    </li>
-					<li>
                         <a href="productos.aspx"><i class="fa fa-desktop "></i>Productos <span class="fa arrow"></span></a>
-                         <ul class="nav nav-second-level">
-                            <li>
-                                <a href="producto.aspx"><i class="fas fa-plus"></i>Nuevo Producto</a>
-                            </li>
-                            <li>
-                                <a href="productos.aspx"><i class="fas fa-store-alt"></i>Todos Los productos</a>
-                            </li>
-
-                            <li>
-                                <a href="categorias.aspx"><i class="fas fa-th"></i>Categorías</a>
-                            </li>
-                            <li>
-                                <a href="productos.aspx?"><i class="far fa-list-alt"></i>Mis Activos Fijos</a>
-                            </li>
+                        <ul class="nav nav-second-level">
+                            <li><a href="producto.aspx"><i class="fas fa-plus"></i>Nuevo Producto</a></li>
+                            <li><a href="productos.aspx"><i class="fas fa-store-alt"></i>Todos Los productos</a></li>
+                            <li><a href="familias.aspx"><i class="fas fa-th"></i>Familias de Productos</a></li>
+                            <li><a href="productos.aspx"><i class="far fa-list-alt"></i>Mis Activos Fijos</a></li>
                         </ul>
                     </li>
                     <li>
                         <a href="#"><i class="fas fa-shopping-cart "></i>Ventas <span class="fa arrow"></span></a>
-                         <ul class="nav nav-second-level">
-                            <li>
-                                <a href="venta.aspx"><i class="fas fa-plus"></i>Nueva Venta</a>
-                            </li>
-                            <li>
-                                <a href="ventas.aspx"><i class="fas fa-archive "></i>Mis Ventas</a>
-                            </li>
+                         <ul class="nav nav-second-level collapse in">
+                            <li><a class="active-menu" href="venta.aspx"><i class="fas fa-plus"></i>Nueva Venta</a></li>
+                            <li><a href="ventas.aspx"><i class="fas fa-archive "></i>Mis Ventas</a></li>
                         </ul>
                     </li>
-                     <li>
+                    <li>
                         <a href="#"><i class="fas fa-shopping-basket "></i>Compras <span class="fa arrow"></span></a>
                          <ul class="nav nav-second-level">
-                            <li>
-                                <a href="compra.aspx"><i class="fas fa-plus"></i>Nueva Compra</a>
-                            </li>
-                            <li>
-                                <a href="compras.aspx"><i class="fas fa-archive "></i>Mis Compras</a>
-                            </li>
+                            <li><a href="compra.aspx"><i class="fas fa-plus"></i>Nueva Compra</a></li>
+                            <li><a href="compras.aspx"><i class="fas fa-archive "></i>Mis Compras</a></li>
+                            <li><a href="pendientes.aspx"><i class="far fa-clock"></i>Recepcionar Compra</a></li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="clientes.aspx"><i class="fas fa-users "></i>Clientes</a>
-                    </li>
-
-                    <li>
-                        <a href="reportes.aspx"><i class="fa fa-flash "></i>Reportes </a>
-                        
-                    </li>
+                    <li><a href="clientes.aspx"><i class="fas fa-users "></i>Clientes</a></li>
+                    <li><a href="reportes.aspx"><i class="fa fa-flash "></i>Reportes </a></li>
                 </ul>
             </div>
-        </nav>
-        <!-- /. NAV SIDE  -->
+        </nav><!-- /. NAV SIDE  -->
+
         <div id="page-wrapper">
             <div id="page-inner">
                 <div class="row">
@@ -118,7 +95,7 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
-                                <label>N°:</label>
+                                <label>N�:</label>
                                 <asp:TextBox id="numero" type="number" class="form-control" runat="server" disabled></asp:TextBox>
                             </div>
                         </div>
@@ -148,35 +125,64 @@
                     <div class="row vertical-align">
                         <!-- INICIO PRODUCTOS -->
                         <div class="col-lg-4 col-md-4 col-sm-5">
-                            <h3>Pasos a Realizar </h3>
+                            <h3>Productos</h3>
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-7">
                             <button type="button" class="btn btn-primary" onclick="agregarProducto()"><i class="fas fa-plus"></i></button>
                         </div>
                     </div>
-                        <div id="productos">
-                            <!-- Crear aca contenido dinamico -->
+                    <div id="productos">
 
-                            <div id="producto" class="row vertical-align">
-                                <div class="col-lg-1 col-md-1 col-sm-1">
-                                   <h4 class="text-center">1</h4>
-                                </div>
-                                <div class="col-lg-10 col-md-10 col-sm-10">
-                                    <asp:TextBox name="producto" type="text" class="form-control" placeholder="Ingrese ID de producto para buscar"></asp:TextBox>
-                                </div>
-                                <div class="col-lg-1 col-md-1 col-sm-1">
-                                    <button id="btnQuitar" type="button" class="btn btn-danger" onclick="borrarProducto(this)">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
+                        <div id="producto1" class="row vertical-align padding-top-2">
+                            <div class="col-lg-1 col-md-1 col-sm-1">
+                                <h4 class="text-center margin">1</h4>
                             </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5">
+                                <label>Producto</label>
+                                <input name="producto" type="text" class="form-control" placeholder="Ingrese ID de producto para buscar" runat="server">
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                <label>Precio</label>
+                                <input name="precio" type="number" class="form-control" placeholder="Precio"/>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1">
+                                <label>Cantidad</label>
+                                <input name="cantidad" type="number" class="form-control" placeholder="Cantidad"/>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                <label>Sub-Total</label>
+                                <input name="subTotal" type="number" class="form-control" placeholder="Sub-Total" disabled/>
+                            </div>
+                            <div class="input-field col-lg-1 col-md-1 col-sm-1"></div>
+                        </div>
+                        <!-- Crear aca contenido dinamico -->
+                    </div><!-- FIN PRODUCTOS -->
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <label>Sub-Total</label>
+                            <input name="subTotal" type="number" class="form-control" placeholder="Sub-Total" disabled/>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <label>IVA</label>
+                            <input name="iva" type="number" class="form-control" placeholder="IVA" disabled/>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group has-error">
+                                <label>Total</label>
+                                <input name="subTotal" type="number" class="form-control " placeholder="Total" disabled/>
+                            </div>
+                            
+                        </div>
+                    </div>    
+                    <div class="row margin">
+                        <div class="col-lg-5 col-md-5 col-sm-5"></div>
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                            <button class="btn btn-success btn-lg"><i class="fas fa-check"></i> Generar Venta</button>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5"></div>
+                    </div>
 
-
-
-
-                        </div><!-- FIN PRODUCTOS -->
-
-                    </div>   
                 </form>
 
 

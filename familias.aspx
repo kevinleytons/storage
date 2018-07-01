@@ -1,4 +1,4 @@
-<%@ Page Language="C#" Src="Controllers/Productos.aspx.cs" Inherits="Controllers.Productos" %>
+<%@ Page Language="C#" Src="Controllers/Home.aspx.cs" Inherits="Controllers.Home" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -19,9 +19,11 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
     <!-- DATATABLES CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 
-    <link rel="stylesheet" type="text/css" href="assets/css/important.css">
+    <!-- Important! -->
+    <link href="assets/css/important.css" rel="stylesheet">
+
 </head>
 <body>
     <div id="wrapper">
@@ -58,8 +60,8 @@
                         <a href="productos.aspx"><i class="fa fa-desktop "></i>Productos <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse in">
                             <li><a href="producto.aspx"><i class="fas fa-plus"></i>Nuevo Producto</a></li>
-                            <li><a class="active-menu" href="productos.aspx"><i class="fas fa-store-alt"></i>Todos Los productos</a></li>
-                            <li><a href="familias.aspx"><i class="fas fa-th"></i>Familias de Productos</a></li>
+                            <li><a href="productos.aspx"><i class="fas fa-store-alt"></i>Todos Los productos</a></li>
+                            <li><a class="active-menu" href="familias.aspx"><i class="fas fa-th"></i>Familias de Productos</a></li>
                             <li><a href="productos.aspx"><i class="far fa-list-alt"></i>Mis Activos Fijos</a></li>
                         </ul>
                     </li>
@@ -88,52 +90,124 @@
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">                    	
-                        <asp:Label id="titulo" runat="server"></asp:Label>
-                        <h1 class="page-head-line">Productos</h1>
-                        <h1 class="page-subhead-line">Lista con Productos</h1>
+                        <h1 class="page-head-line">Familias De Productos</h1>
+                        <h1 class="page-subhead-line">Familias y Sub-Familias De Productos</h1>
                     </div>
                 </div><!-- /. ROW  -->
 
                 <div class="row">
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <asp:Literal id="prueba" runat="server"></asp:Literal>
+                    <div class="col-lg-3 col-md-3 col-sm-3"></div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="alert alert-success alert-dismissable text-center">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            Familia <b>tanto</b> Creada Correctamente <a href="#" class="alert-link"></a>.
+                        </div>
                     </div>
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <table id="tablaProductos" class="display">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Nombre</th>
-                                    <th>Stock</th>
-                                    <th>Precio</th>
-                                    <th>Visibilidad</th>
-                                    <th>Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <asp:Literal id="listProduct" runat="server"></asp:Literal>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Nombre</th>
-                                    <th>Stock</th>
-                                    <th>Precio</th>
-                                    <th>Visibilidad</th>
-                                    <th>Estado</th>
-                                </tr>
-                            </tfoot>
-                        </table>
+                    <div class="col-lg-3 col-md-3 col-sm-3"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 text-center">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nuevaFamilia">
+                          Nueva Familia <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 text-center">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nuevaSubFamilia">
+                          Nueva Sub-Familia <i class="fas fa-plus"></i>
+                        </button>
                     </div>
                 </div>
+                <br>
+                
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="list-group contenedor">
+                            <!-- Lista con Familias -->
+                            <div class="list-group-item">
+                                Electrónica
+                                <span class="pull-right text-muted small">
+                                    <em>5 Sub-Familias</em>
+                                </span>
+                            </div>
+                            <div class="list-group-item">
+                                Electrónica
+                                <span class="pull-right text-muted small">
+                                    <em>5 Sub-Familias</em>
+                                </span>
+                            </div>
+                            <div class="list-group-item">
+                                Electrónica
+                                <span class="pull-right text-muted small">
+                                    <em>5 Sub-Familias</em>
+                                </span>
+                            </div>
+                            <div class="list-group-item">
+                                Electrónica
+                                <span class="pull-right text-muted small">
+                                    <em>5 Sub-Familias</em>
+                                </span>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    
+                </div><!-- /. ROW  -->
 
             </div><!-- /. PAGE INNER  -->
         </div><!-- /. PAGE WRAPPER  -->
     </div><!-- /. WRAPPER  -->
     <div id="footer-sec">
          2018 Storage System &copy; | Todos Los Derechos Reservados
+    </div><!-- /. FOOTER  -->
+
+    <!-- Modal Creación de Familia -->
+    <div class="modal fade" id="nuevaFamilia" tabindex="-1" role="dialog" aria-labelledby="nuevaFamiliaLabel">
+      <div class="modal-dialog modal-sm" role="document">
+        <form action="#" method="post" runat="server">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="nuevaFamiliaLabel">Crear Nueva Familia</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <label for="familia">Nombre De Familia</label>
+                            <asp:TextBox id="familia" class="form-control" runat="server"></asp:TextBox>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                    <asp: type="button" class="btn btn-success">Guardar</button>
+                </div>
+            </div>
+        </form>
+      </div>
     </div>
-    <!-- /. FOOTER  -->
+
+    <!-- Modal Creación de Sub-Familia -->
+    <div class="modal fade" id="nuevaSubFamilia" tabindex="-1" role="dialog" aria-labelledby="nuevaSubFamiliaLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="nuevaSubFamiliaLabel">Modal title</h4>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-success">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
     <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
     <!-- JQUERY SCRIPTS -->
     <script src="assets/js/jquery-1.10.2.js"></script>
@@ -161,7 +235,7 @@
                     "zeroRecords": "No se encontraron datos",
                     "infoEmpty": "No hay datos para mostrar",
                     "processing": "Procesando..",
-                    "info": "Mostrando del _START_ al _END_, de un total de _TOTAL_ productos",
+                    "info": "Mostrando del _START_ al _END_, de un total de _TOTAL_ entradas",
                     "paginate": {
                         "next": "Siguiente",
                         "previous": "Anterior"
@@ -170,7 +244,6 @@
             });
         } );
     </script>
-
 
 </body>
 </html>

@@ -10,3 +10,38 @@ input[type=number] { -moz-appearance:textfield; }
     display: flex;
     align-items: center;
 }
+
+.padding-top-2{
+	padding-top: 7px;
+}
+
+.margin{
+    margin-top: 30px;
+    margin-bottom: 0px;
+}
+
+div.list-group-item:hover{
+  background-color: #F5F5F5;
+  cursor: pointer;
+}
+
+.contenedor {
+    height: 500px;
+    background-color: #F5F5F5;
+    overflow: auto;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar {
+	overflow-y: hidden;
+      width: 10px;
+}
+
+::-webkit-scrollbar-track {
+      background-color: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.2);
+} 
+

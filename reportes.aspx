@@ -62,10 +62,10 @@
                             </li>
 
                             <li>
-                                <a href="categorias.aspx"><i class="fas fa-th"></i>Todas las CategorÃ­as</a>
+                                <a href="categorias.aspx"><i class="fas fa-th"></i>Todas las Categorías</a>
                             </li>
                             <li>
-                                <a href="categorias.aspx?">CategorÃ­a 1</a>
+                                <a href="categorias.aspx?">Categoría 1</a>
                             </li>
                         </ul>
                     </li>
@@ -108,13 +108,23 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-head-line">Reportes</h1>
-                        <h1 class="page-subhead-line">Generar Reporte</h1>
+                        <h1 class="page-subhead-line">Seleccione Una Opción Para Generar Reporte</h1>
                     </div>
                 </div><!-- /. ROW  -->
 
                 <div class="row">
-                    
-
+                    <div class="col-md-4">
+                        <div class="list-group text-center">
+                            <a href="#" class="list-group-item active">
+                                <h4 class="list-group-item-heading">Reporte De Ventas Diarias</h4>
+                                <i class="fa fa-bolt fa-3x"></i>
+                                <p class="list-group-item-text" style="line-height: 30px;">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                </p>
+                            </a>
+                        </div>
+                    </div>
 
                 </div>
 

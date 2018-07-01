@@ -18,7 +18,7 @@
     <!-- GOOGLE FONTS-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <!-- DATATABLES CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.css">
 </head>
 <body>
     <div id="wrapper">
@@ -123,22 +123,18 @@
                         <table id="tablaProductos" class="display">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th>Rut</th>
+                                    <th>DV</th>
                                     <th>Nombre</th>
-                                    <th>Stock</th>
-                                    <th>Precio</th>
-                                    <th>Visibilidad</th>
-                                    <th>Estado</th>
+                                    <th>Compras Realizadas</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Id</th>
+                                    <th>Rut</th>
+                                    <th>DV</th>
                                     <th>Nombre</th>
-                                    <th>Stock</th>
-                                    <th>Precio</th>
-                                    <th>Visibilidad</th>
-                                    <th>Estado</th>
+                                    <th>Compras Realizadas</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -164,8 +160,9 @@
     <script src="assets/js/custom.js"></script>
 
     <!-- DATATABLES JQuery -->
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <!-- DATATABLES JQuery -->
+    <script type="text/javascript" charset="utf8" src="assets/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="assets/js/dataTables.bootstrap.min.js"></script>
     <!-- JQUERY DATA TABLES SCRIPT -->
     <script>
         $(document).ready( function () {
