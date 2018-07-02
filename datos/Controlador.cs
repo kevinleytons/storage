@@ -9,7 +9,7 @@ namespace Datos{
 		public Controlador(){
 
 		}
-		MySqlConnection conexion = new MySqlConnection("Server=127.0.0.1;Database=storage;Uid=root;Pwd='';");
+		MySqlConnection conexion = new MySqlConnection("Server=127.0.0.1;Database=storage;Uid=root;Pwd='';Allow Zero Datetime=True;Convert Zero Datetime=True;");
 		// Metodo para abrir la conexion
 		public void openConexion(){
 			if(conexion.State == ConnectionState.Closed){

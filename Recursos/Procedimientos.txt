@@ -1,0 +1,11 @@
+Procedimientos
+
+add_producto(nombre, descripcion, foto, stock, costo, precio, tipo, sub_familia, estado, visibilidad, vencimiento);
+
+cargarProductos();
+
+findFamilia(id);
+
+findSubFamilia(id);
+
+findProducto(id);
