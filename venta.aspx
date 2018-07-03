@@ -143,7 +143,7 @@
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-2">
                                 <label>Precio</label>
-                                <input name="precio" type="number" class="form-control" placeholder="Precio"/>
+                                <input name="precio" type="number" class="form-control" placeholder="Precio" disabled />
                             </div>
                             <div class="col-lg-1 col-md-1 col-sm-1">
                                 <label>Cantidad</label>
@@ -156,6 +156,7 @@
                             <div class="input-field col-lg-1 col-md-1 col-sm-1"></div>
                         </div>
                         <!-- Crear aca contenido dinamico -->
+
                     </div><!-- FIN PRODUCTOS -->
                     <hr>
                     <div class="row">

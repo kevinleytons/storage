@@ -7,14 +7,11 @@ using System.Collections.Generic;
 namespace Model{
 
     public class Usuario{
-        // Declarar los atributos de la clase
-        // estos son los campos de la Base de datos
-
-        private string rut;
-        private char dv;
-        private string name;
-        private string pass;
-        private char tipo;
+        public string rut;
+        public char dv;
+        public string name;
+        public string pass;
+        public char tipo;
 
         // Constructor vacio de la clase usuario
         public Usuario(){}
@@ -25,46 +22,6 @@ namespace Model{
             this.dv = dv;
             this.name = name;
             this.pass = pass;
-            this.tipo = tipo;
-        }
-
-        public string getRut() {
-            return rut;
-        }
-
-        public void setRut(string rut) {
-            this.rut = rut;
-        }
-
-        public char getDV() {
-            return dv;
-        }
-
-        public void setDV(char dv) {
-            this.dv = dv;
-        }
-
-        public string getName() {
-            return name;
-        }
-
-        public void setName(string name) {
-            this.name = name;
-        }
-
-        public string getPass() {
-            return pass;
-        }
-
-        public void setPass(string pass) {
-            this.pass = pass;
-        }
-
-        public char getTipo() {
-            return tipo;
-        }
-
-        public void setTipo(char tipo) {
             this.tipo = tipo;
         }
 

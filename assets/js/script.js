@@ -13,7 +13,7 @@ function agregarProducto(){
 	    		+'<input name="producto" type="text" class="form-control" placeholder="Ingrese ID de producto para buscar" runat="server">'
 			+'</div>'
 			+'<div class="col-lg-2 col-md-2 col-sm-2">'
-	    		+'<input name="cantidad" type="number" class="form-control" placeholder="Precio"/>'
+	    		+'<input name="cantidad" type="number" class="form-control" placeholder="Precio" disabled/>'
 			+'</div>'
 			+'<div class="col-lg-1 col-md-1 col-sm-1">'
 	    		+'<input name="cantidad" type="number" class="form-control" placeholder="Cantidad"/>'
@@ -22,15 +22,14 @@ function agregarProducto(){
 	    		+'<input name="subTotal" type="number" class="form-control" placeholder="Sub-Total" disabled/>'
 			+'</div>'
 			+'<div class="input-field col-lg-1 col-md-1 col-sm-1">'
-				+'<button id="btnQuitar'+contarProductos()+'" type="button" class="btn btn-danger" onclick="borrarProducto(this)">'
+				+'<button id="btnQuitar'+contarProductos()+'" type="button" class="btn btn-danger" onclick="borrarProducto()">'
 					+'<i class="fas fa-trash"></i>'
 				+'</button>'
 			+'</div>'
 		+'</div>'); 
 }
 
-function borrarProducto(boton){
-    boton = boton.id;
-    var id = boton.substring(9, boton.length);
+function borrarProducto(){
+    var id = contarProductos()-1;
     $('#producto'+id).remove();
 }

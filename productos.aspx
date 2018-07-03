@@ -111,6 +111,28 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <form action="" method="post" runat="server">
+                                        <td>
+                                            
+                                        </td>
+                                        <td>
+                                            <asp:TextBox id="nombre" runat="server" class="form-control"></asp:TextBox>
+                                        </td>
+                                        <td>
+                                            -
+                                        </td>
+                                        <td>
+                                            -
+                                        </td>
+                                        <td>
+                                            <asp:DropDownList id="visibilidad" runat="server" class="form-control"></asp:DropDownList>
+                                        </td>
+                                        <td>
+                                            <asp:DropDownList id="estado" runat="server" class="form-control"></asp:DropDownList>
+                                        </td>
+                                    </form>
+                                </tr>
                                 <asp:Literal id="listProduct" runat="server"></asp:Literal>
                             </tbody>
                             <tfoot>

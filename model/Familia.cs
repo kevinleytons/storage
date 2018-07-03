@@ -29,9 +29,12 @@ namespace Model{
             }
             control.closeConexion();
         }
+
         // Constructor con parametros
         public Familia(Familia familia, string nombre) {
             this.nombre = nombre;
         }
+
+        
     }
 }

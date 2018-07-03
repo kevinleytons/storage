@@ -8,8 +8,6 @@ using Datos;
 namespace Model{
 
     public class Producto{
-        // Declarar los atributos de la clase
-        // estos son los campos de la Base de datos
 
         public int id;
         public string nombre;

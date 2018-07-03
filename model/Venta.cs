@@ -32,54 +32,6 @@ namespace Model{
             this.documento = documento;
         }
 
-        public Usuario getCliente() {
-            return usuario;
-        }
-
-        public void setCliente(Usuario usuario) {
-            this.usuario = usuario;
-        }
-
-        public DateTime getFecha() {
-            return fecha;
-        }
-
-        public void setFecha(DateTime fecha) {
-            this.fecha = fecha;
-        }
-
-        public int getDescuento() {
-            return descuento;
-        }
-
-        public void setDescuento(int descuento) {
-            this.descuento = descuento;
-        }
-
-        public int getTotal() {
-            return total;
-        }
-
-        public void setTotal(int total) {
-            this.total = total;
-        }
-
-        public int getIva() {
-            return iva;
-        }
-
-        public void setIva(int iva) {
-            this.iva = iva;
-        }
-
-        public char getDocumeto() {
-            return documento;
-        }
-
-        public void setDocumento(char documento) {
-            this.documento = documento;
-        }
-
         public Venta Insert(Usuario cliente, DateTime fecha, int descuento, int total, int iva, char documento) {
             
             MySqlConnection conexion = Conexion.GetConexion();
