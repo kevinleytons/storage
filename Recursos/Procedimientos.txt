@@ -1,11 +1,21 @@
 Procedimientos
 
-add_producto(nombre, descripcion, foto, stock, costo, precio, tipo, sub_familia, estado, visibilidad, vencimiento);
+// PROCEDIMIENTOS PARA PRODUCTOS //
 
-cargarProductos();
+	add_producto(nombre, descripcion, foto, stock, costo, precio, tipo, sub_familia, estado, visibilidad, vencimiento);
+	updateProduct(id, nombre, descripcion, foto, stock, costo, precio, tipo, sub_familia, estado, visibilidad, vencimiento);
+	deleteProduct(id);
+	findProducto(id);
+	cargarProductos();
 
-findFamilia(id);
+// PROCEDIMIENTOS PARA  FAMILIAS //
 
-findSubFamilia(id);
+	findFamilia(id);
 
-findProducto(id);
+// PROCEDIMIENTOS PARA  SUBFAMILIAS //
+
+	findSubFamilia(id);
+
+
+
+

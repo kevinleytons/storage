@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Globalization;
 
 namespace Controllers{
 
@@ -51,6 +52,23 @@ namespace Controllers{
 			foreach (Model.Producto producto in productos){
 				listProduct.Text += ("<tr><td>"+producto.id+"</td><td>"+producto.nombre+"</td><td>"+producto.stock+"</td><td>"+producto.precio+"</td><td>"+producto.visibilidad+"</td><td>"+producto.estado+"</td></tr>");
 			}
+			/*
+			// Este es un ejemplo de como agregar un nuevo producto 
+			string nombre = "Lavadora LG";
+			string descripcion = "Dimension 15x10x8";
+			string foto = "lavadora.jpg";
+			int stock = 10;
+			int costo = 55000;
+			int precio = 123500;
+			char tipo = 'A';
+			Model.SubFamilia sub_familia = new Model.SubFamilia(1);
+			char estado = 'D';
+			char visibilidad = 'V';
+			DateTime vencimiento = new DateTime(2018, 3, 1, 7, 0, 0);
+			Model.Producto pro = new Model.Producto(nombre,descripcion,foto,stock,costo,precio,tipo,sub_familia,estado,visibilidad,vencimiento);
+			pro.Insert();
+			listProduct.Text += ("<tr><td>"+pro.id+"</td><td>"+pro.nombre+"</td><td>"+pro.stock+"</td><td>"+pro.precio+"</td><td>"+pro.visibilidad+"</td><td>"+pro.estado+"</td></tr>");
+			*/
 		}
 
 	}

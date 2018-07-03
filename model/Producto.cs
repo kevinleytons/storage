@@ -63,11 +63,53 @@ namespace Model{
             this.visibilidad = visibilidad;
             this.vencimiento = vencimiento;
         }
-        /*
-        public Producto Insert(Producto producto) {
-            
+        
+        public void Insert() {
+            Datos.Controlador control = new Datos.Controlador();
+            control.openConexion();
+            List<Parametros> parametros = new List<Parametros>();
+            parametros.Add(new Parametros("nombre", this.nombre));
+            parametros.Add(new Parametros("descripcion", this.descripcion));
+            parametros.Add(new Parametros("foto", this.foto));
+            parametros.Add(new Parametros("stock", this.stock));
+            parametros.Add(new Parametros("costo", this.costo));
+            parametros.Add(new Parametros("precio", this.precio));
+            parametros.Add(new Parametros("tipo", this.tipo));
+            parametros.Add(new Parametros("sub_familia_id", this.sub_familia.id));
+            parametros.Add(new Parametros("estado", this.estado));
+            parametros.Add(new Parametros("visibilidad", this.visibilidad));
+            parametros.Add(new Parametros("vencimiento", this.vencimiento));
+            parametros.Add(new Parametros("out_id", MySqlDbType.Int32, 10));
+            control.ejecutarSql("add_producto", parametros);
+            this.id = Convert.ToInt32(parametros[11].Valor);
         }
-        */
+
+        public void Delete() {
+            Datos.Controlador control = new Datos.Controlador();
+            control.openConexion();
+            List<Parametros> parametros = new List<Parametros>();
+            parametros.Add(new Parametros("id", this.id));
+            control.ejecutarSql("deleteProduct", parametros);
+        }
+
+        public void Update() {
+            Datos.Controlador control = new Datos.Controlador();
+            control.openConexion();
+            List<Parametros> parametros = new List<Parametros>();
+            parametros.Add(new Parametros("id", this.id));
+            parametros.Add(new Parametros("nombre", this.nombre));
+            parametros.Add(new Parametros("descripcion", this.descripcion));
+            parametros.Add(new Parametros("foto", this.foto));
+            parametros.Add(new Parametros("stock", this.stock));
+            parametros.Add(new Parametros("costo", this.costo));
+            parametros.Add(new Parametros("precio", this.precio));
+            parametros.Add(new Parametros("tipo", this.tipo));
+            parametros.Add(new Parametros("sub_familia_id", this.sub_familia.id));
+            parametros.Add(new Parametros("estado", this.estado));
+            parametros.Add(new Parametros("visibilidad", this.visibilidad));
+            parametros.Add(new Parametros("vencimiento", this.vencimiento));
+            control.ejecutarSql("updateProduct", parametros);
+        }
 
         public List<Producto> FindAllProduct() {
             Datos.Controlador control = new Datos.Controlador();
