@@ -1,0 +1,49 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cargarProductos`()
+BEGIN
+SELECT * FROM productos;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findSubFamilia`(IN id int)
+BEGIN
+SELECT * FROM sub_familias WHERE sbf_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findProducto`(IN id int)
+BEGIN
+SELECT * FROM productos WHERE pro_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_producto`(IN `nombre` VARCHAR(50), IN `descripcion` VARCHAR(150), IN `foto` VARCHAR(200), IN `stock` INT, IN `costo` INT, IN `precio` INT, IN `tipo` ENUM('A','F'), IN `sub_familia_id` INT, IN `estado` ENUM('D','A','C'), IN `visibilidad` ENUM('V','O'), IN `vencimiento` DATETIME, OUT `out_id` INT)
+BEGIN
+INSERT INTO productos(pro_nombre, pro_descripcion, pro_foto, pro_stock, pro_costo, pro_precio, pro_tipo, pro_sbf_id, pro_estado, pro_visibilidad, pro_vencimiento) VALUES(nombre, descripcion, foto, stock, costo, precio, tipo, sub_familia_id, estado, visibilidad, vencimiento);
+SET out_id = LAST_INSERT_ID();
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findFamilia`(IN id int)
+BEGIN
+SELECT * FROM familias WHERE fam_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteProduct`(IN id int)
+BEGIN
+DELETE FROM productos WHERE pro_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateProduct`(IN `id` INT, IN `nombre` VARCHAR(50), IN `descripcion` VARCHAR(150), IN `foto` VARCHAR(200), IN `stock` INT, IN `costo` INT, IN `precio` INT, IN `tipo` ENUM('A','F'), IN `sub_familia_id` INT, IN `estado` ENUM('D','A','C'), IN `visibilidad` ENUM('V','O'), IN `vencimiento` DATETIME)
+BEGIN
+UPDATE productos SET pro_nombre = nombre, pro_descripcion = descripcion, pro_foto = foto, pro_stock = stock, pro_costo = costo, pro_precio = precio, pro_tipo = tipo, pro_sbf_id = sub_familia_id, pro_estado = estado, pro_visibilidad = visibilidad, pro_vencimiento = vencimiento WHERE pro_id = id;
+END$$
+DELIMITER ;
