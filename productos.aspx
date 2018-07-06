@@ -57,7 +57,7 @@
                     <li>
                         <a href="productos.aspx"><i class="fa fa-desktop "></i>Productos <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse in">
-                            <li><a href="producto.aspx"><i class="fas fa-plus"></i>Nuevo Producto</a></li>
+                            <li><a href="producto.aspx?op=nuevo"><i class="fas fa-plus"></i>Nuevo Producto</a></li>
                             <li><a class="active-menu" href="productos.aspx"><i class="fas fa-store-alt"></i>Todos Los productos</a></li>
                             <li><a href="familias.aspx"><i class="fas fa-th"></i>Familias de Productos</a></li>
                             <li><a href="productos.aspx"><i class="far fa-list-alt"></i>Mis Activos Fijos</a></li>
@@ -96,7 +96,7 @@
 
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-12">
-                        <asp:Literal id="prueba" runat="server"></asp:Literal>
+                        <asp:Literal id="mensaje" runat="server"></asp:Literal>
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <table id="tablaProductos" class="display">
@@ -111,28 +111,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <form action="" method="post" runat="server">
-                                        <td>
-                                            
-                                        </td>
-                                        <td>
-                                            <asp:TextBox id="nombre" runat="server" class="form-control"></asp:TextBox>
-                                        </td>
-                                        <td>
-                                            -
-                                        </td>
-                                        <td>
-                                            -
-                                        </td>
-                                        <td>
-                                            <asp:DropDownList id="visibilidad" runat="server" class="form-control"></asp:DropDownList>
-                                        </td>
-                                        <td>
-                                            <asp:DropDownList id="estado" runat="server" class="form-control"></asp:DropDownList>
-                                        </td>
-                                    </form>
-                                </tr>
                                 <asp:Literal id="listProduct" runat="server"></asp:Literal>
                             </tbody>
                             <tfoot>
@@ -174,8 +152,29 @@
     <!-- JQUERY DATA TABLES SCRIPT -->
     <script>
         $(document).ready( function () {
-            $('#tablaProductos').DataTable({
-                "ajax": "",
+            var tabla = $('#tablaProductos').DataTable({
+
+                "initComplete": function () {
+                    this.api().columns().every( function () {
+                        var column = this;
+                        var select = $('<br><select class="form-control"><option value=""></option></select>')
+                            .appendTo( $(column.header()))
+                            .on( 'change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+                                column
+                                    .search( val ? '^'+val+'$' : '', true, false )
+                                    .draw();
+                            } );
+         
+                        column.data().unique().sort().each( function ( d, j ) {
+                            select.append( '<option value="'+d+'">'+d+'</option>' )
+                        } );
+                    } );
+                },
+
+
                 "language": {
                     "search": "Buscar:",
                     "lengthMenu": "Mostrar _MENU_ Entradas",
@@ -188,8 +187,31 @@
                         "next": "Siguiente",
                         "previous": "Anterior"
                     },
-                }   
+                },
+
             });
+
+            $('th').off();
+            $(".form-control").css("cursor","default");
+            $("th").css("cursor","pointer");
+
+            var orden = false;
+  
+            //$("#tablaProductos thead tr th:not(:input[type=select])").on("click",function(event){
+            $("th").on("click",function(event){
+
+                var columna = tabla.column($(this)).index();
+                
+                if (orden == false){
+                    tabla.order([columna, 'desc']).draw();
+                    orden = true;
+                }else{
+                    tabla.order([columna, 'asc']).draw();
+                    orden = false;
+                }
+            });
+            
+
         } );
     </script>
 

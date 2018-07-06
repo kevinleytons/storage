@@ -3,7 +3,7 @@ using MySql.Data.MySqlClient;
 using System.Data.SqlClient;
 using System.Data;
 using System.Collections.Generic;
-
+using Datos;
 
 namespace Model{
 
@@ -34,9 +34,9 @@ namespace Model{
 
         public Venta Insert(Usuario cliente, DateTime fecha, int descuento, int total, int iva, char documento) {
             
-            MySqlConnection conexion = Conexion.GetConexion();
+            //MySqlConnection conexion = Conexion.GetConexion();
 
-            MySqlCommand comandoSQL = new MySqlCommand("INS_SONG_SP", conexion);    
+            //MySqlCommand comandoSQL = new MySqlCommand("INS_SONG_SP", conexion);    
             /* CODIGO PARA EJECUTAR PROCEDIMIENTO
     			comandoSQL.CommandType = CommandType.StoredProcedure;
     			comandoSQL.Parameters.Add(new MySqlParameter("nusuario", user.Text));
@@ -47,9 +47,9 @@ namespace Model{
         }
 
         public Venta Update(Usuario cliente, DateTime fecha, int descuento, int total, int iva, char documento) {
-            MySqlConnection conexion = Conexion.GetConexion();
+            //MySqlConnection conexion = Conexion.GetConexion();
             
-            MySqlCommand comandoSQL = new MySqlCommand("UPT_SONG_SP", conexion);    
+            //MySqlCommand comandoSQL = new MySqlCommand("UPT_SONG_SP", conexion);    
             /* CODIGO PARA EJECUTAR PROCEDIMIENTO
                 comandoSQL.CommandType = CommandType.StoredProcedure;
                 comandoSQL.Parameters.Add(new MySqlParameter("nusuario", user.Text));
@@ -61,9 +61,9 @@ namespace Model{
         }
 
         public Venta FindById(int id) {
-            MySqlConnection conexion = Conexion.GetConexion();
+            //MySqlConnection conexion = Conexion.GetConexion();
             
-            MySqlCommand comandoSQL = new MySqlCommand("F_SONG_SP", conexion);    
+            //MySqlCommand comandoSQL = new MySqlCommand("F_SONG_SP", conexion);    
             /* CODIGO PARA EJECUTAR PROCEDIMIENTO
                 comandoSQL.CommandType = CommandType.StoredProcedure;
                 comandoSQL.Parameters.Add(new MySqlParameter("nusuario", user.Text));
@@ -73,41 +73,39 @@ namespace Model{
             return new Venta(); 
         }
 
-        public MySqlDataReader FindAllAlbums() {
+        public void FindAllAlbums() {
 
-            MySqlConnection conexion = Conexion.GetConexion();
-            MySqlCommand comandoSQL = new MySqlCommand("FAA_SONG_SP", conexion);
+            //MySqlConnection conexion = Conexion.GetConexion();
+            //MySqlCommand comandoSQL = new MySqlCommand("FAA_SONG_SP", conexion);
 
-            MySqlDataReader canciones = comandoSQL.ExecuteReader();
+            //MySqlDataReader canciones = comandoSQL.ExecuteReader();
 
-            return canciones;
         }
 
-        public MySqlDataReader FindAllByAlbum(string album) {
+        public void FindAllByAlbum(string album) {
 
-            MySqlDataReader canciones = null;
+            //MySqlDataReader canciones = null;
 
             //List<Usuario> usuarios = new List<Usuario>();
-            MySqlConnection conexion = Conexion.GetConexion();
+            //MySqlConnection conexion = Conexion.GetConexion();
 
-            MySqlCommand comandoSQL = new MySqlCommand("FA_SONG_SP", conexion); 
-            comandoSQL.CommandType = CommandType.StoredProcedure;
-            comandoSQL.Parameters.AddWithValue("@album", album);   
+            //MySqlCommand comandoSQL = new MySqlCommand("FA_SONG_SP", conexion); 
+            //comandoSQL.CommandType = CommandType.StoredProcedure;
+            //comandoSQL.Parameters.AddWithValue("@album", album);   
             //MySqlCommand comandoSQL = new MySqlCommand("SELECT * FROM canciones WHERE can_album = '"+album+"';", conexion);    
 
-            canciones = comandoSQL.ExecuteReader();
+            //canciones = comandoSQL.ExecuteReader();
 
-            if (canciones != null) {
-                return canciones;
-            }else{
-                return canciones;
-            }
+            //if (canciones != null) {
+            //    return canciones;
+            //}else{
+            //}
         }
 
         public void Remove(int id) {
-            MySqlConnection conexion = Conexion.GetConexion();
+            //MySqlConnection conexion = Conexion.GetConexion();
             
-            MySqlCommand comandoSQL = new MySqlCommand("RMV_SONG_SP", conexion);    
+            //MySqlCommand comandoSQL = new MySqlCommand("RMV_SONG_SP", conexion);    
             /* CODIGO PARA EJECUTAR PROCEDIMIENTO
                 comandoSQL.CommandType = CommandType.StoredProcedure;
                 comandoSQL.Parameters.Add(new MySqlParameter("nusuario", user.Text));

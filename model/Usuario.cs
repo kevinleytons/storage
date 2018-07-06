@@ -3,6 +3,7 @@ using MySql.Data.MySqlClient;
 using System.Data.SqlClient;
 using System.Data;
 using System.Collections.Generic;
+using Datos;
 
 namespace Model{
 
@@ -27,9 +28,9 @@ namespace Model{
 
         public Usuario Insert(string rut, char dv, string name, string pass, char tipo) {
             
-            MySqlConnection conexion = Conexion.GetConexion();
+            //MySqlConnection conexion = Conexion.GetConexion();
 
-            MySqlCommand comandoSQL = new MySqlCommand("INS_USER_SP", conexion);    
+            //MySqlCommand comandoSQL = new MySqlCommand("INS_USER_SP", conexion);    
             /* CODIGO PARA EJECUTAR PROCEDIMIENTO
     			comandoSQL.CommandType = CommandType.StoredProcedure;
     			comandoSQL.Parameters.Add(new MySqlParameter("nusuario", user.Text));
@@ -41,9 +42,9 @@ namespace Model{
         }
 
         public Usuario Update(string rut, char dv, string name, string pass, char tipo) {
-            MySqlConnection conexion = Conexion.GetConexion();
+            //MySqlConnection conexion = Conexion.GetConexion();
 
-            MySqlCommand comandoSQL = new MySqlCommand("UPT_USER_SP", conexion);    
+            //MySqlCommand comandoSQL = new MySqlCommand("UPT_USER_SP", conexion);    
             /* CODIGO PARA EJECUTAR PROCEDIMIENTO
                 comandoSQL.CommandType = CommandType.StoredProcedure;
                 comandoSQL.Parameters.Add(new MySqlParameter("nusuario", user.Text));
@@ -54,9 +55,9 @@ namespace Model{
         }
 
         public Usuario FindByRut(string rut) {
-            MySqlConnection conexion = Conexion.GetConexion();
+            //MySqlConnection conexion = Conexion.GetConexion();
             
-            MySqlCommand comandoSQL = new MySqlCommand("F_USER_SP", conexion);    
+            //MySqlCommand comandoSQL = new MySqlCommand("F_USER_SP", conexion);    
             /* CODIGO PARA EJECUTAR PROCEDIMIENTO
                 comandoSQL.CommandType = CommandType.StoredProcedure;
                 comandoSQL.Parameters.Add(new MySqlParameter("nusuario", user.Text));
@@ -66,28 +67,28 @@ namespace Model{
             return new Usuario();
         }
 
-        public MySqlDataReader FindAll() {
+        public void FindAll() {
 
-            MySqlConnection conexion = Conexion.GetConexion();
+            //MySqlConnection conexion = Conexion.GetConexion();
             
             //MySqlCommand comandoSQL = new MySqlCommand("FA_USER_SP", conexion);    
-            MySqlCommand comandoSQL = new MySqlCommand("SELECT * FROM canciones;", conexion);    
+            //MySqlCommand comandoSQL = new MySqlCommand("SELECT * FROM canciones;", conexion);    
 
             /* CODIGO PARA EJECUTAR PROCEDIMIENTO
                 comandoSQL.CommandType = CommandType.StoredProcedure;
                 comandoSQL.ExecutenNonQuery();
             */
 
-            MySqlDataReader usuarios = comandoSQL.ExecuteReader();
+            //MySqlDataReader usuarios = comandoSQL.ExecuteReader();
 
-            return usuarios;
+            //return usuarios;
         }
         
 
         public void Remove(string rut) {
-            MySqlConnection conexion = Conexion.GetConexion();
+            //MySqlConnection conexion = Conexion.GetConexion();
             
-            MySqlCommand comandoSQL = new MySqlCommand("RMV_USER_SP", conexion);    
+            //MySqlCommand comandoSQL = new MySqlCommand("RMV_USER_SP", conexion);    
             /* CODIGO PARA EJECUTAR PROCEDIMIENTO
                 comandoSQL.CommandType = CommandType.StoredProcedure;
                 comandoSQL.Parameters.Add(new MySqlParameter("nusuario", user.Text));
