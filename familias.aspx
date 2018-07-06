@@ -1,4 +1,4 @@
-<%@ Page Language="C#" Src="Controllers/Home.aspx.cs" Inherits="Controllers.Home" %>
+<%@ Page Language="C#" Src="Controllers/Productos.aspx.cs" Inherits="Controllers.Productos" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -94,7 +94,7 @@
                         <h1 class="page-subhead-line">Familias y Sub-Familias De Productos</h1>
                     </div>
                 </div><!-- /. ROW  -->
-
+                <asp:Literal id="mensaje" runat="server"></asp:Literal>
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3"></div>
                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -122,36 +122,19 @@
                 
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="list-group contenedor">
+                        <div class="list-group contenedor familias">
                             <!-- Lista con Familias -->
-                            <div class="list-group-item">
-                                Electrónica
-                                <span class="pull-right text-muted small">
-                                    <em>5 Sub-Familias</em>
-                                </span>
-                            </div>
-                            <div class="list-group-item">
-                                Electrónica
-                                <span class="pull-right text-muted small">
-                                    <em>5 Sub-Familias</em>
-                                </span>
-                            </div>
-                            <div class="list-group-item">
-                                Electrónica
-                                <span class="pull-right text-muted small">
-                                    <em>5 Sub-Familias</em>
-                                </span>
-                            </div>
-                            <div class="list-group-item">
-                                Electrónica
-                                <span class="pull-right text-muted small">
-                                    <em>5 Sub-Familias</em>
-                                </span>
-                            </div>
-                            
-                            
+                            <asp:Literal id="listaFamilias" runat="server"></asp:Literal>
                         </div>
                     </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="list-group contenedor subfamilias">
+                            <!-- Lista con SubFamilias -->
+                            <div id="listaSubFamilias">
+                                
+                            </div>
+                        </div>
+                    </div
                     
                 </div><!-- /. ROW  -->
 
@@ -174,14 +157,13 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
-                            <label for="familia">Nombre De Familia</label>
                             <asp:TextBox id="familia" class="form-control" runat="server"></asp:TextBox>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
-                    <asp: type="button" class="btn btn-success">Guardar</button>
+                    <asp:Button type="button" class="btn btn-success" Text="Guardar" runat="server"></asp:Button>
                 </div>
             </div>
         </form>

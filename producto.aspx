@@ -1,10 +1,10 @@
-<%@ Page Language="C#" Src="Controllers/Home.aspx.cs" Inherits="Controllers.Home"%>
+<%@ Page Language="C#" Src="Controllers/Productos.aspx.cs" Inherits="Controllers.Productos"%>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Productos | Storage System</title>
+    <title>Nuevo Producto | Storage System</title>
 
     <!-- BOOTSTRAP STYLES-->
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
@@ -89,21 +89,27 @@
                 <div class="row">
                     <div class="col-md-12">                    	
                         <h1 class="page-head-line">Nuevo Producto</h1>
-                        <h1 class="page-subhead-line">Ingrese datos para registrar nuevo producto</h1>
+                        <h1 class="page-subhead-line"><span class="text-rigth text-danger">*</span>Campos Obligatorios</h1>
                     </div>
                 </div><!-- /. ROW  -->
-
-                <form action="#" method="post" runat="server">
-
-                    <div class="row">
+                <asp:Literal id="mensaje" runat="server"></asp:Literal>
+                <form id="nuevoProducto" action="" method="post" enctype="multipart/form-data" runat="server">
+                    <asp:TextBox type="hidden" id="op" runat="server" value="0"></asp:TextBox>
+                     <div class="row">
                     
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <div class="form-group text-center">
-                                <label class="control-label">Seleccionar Imagen</label>
-                                <div class="fileupload fileupload-new" data-provides="fileupload"><input type="hidden">
-                                    <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px; line-height: 150px;"></div>
+                                <label class="control-label">Seleccionar Imagen<span class="text-danger">*</span></label>
+                                <div class="fileupload fileupload-new" data-provides="fileupload">
+                                    <asp:TextBox type="hidden" runat="server"></asp:TextBox>
+                                    <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px; line-height: 150px;">
+                                    </div>
                                     <div>
-                                        <span class="btn btn-file btn-success"><span class="fileupload-new">Subir Imagen</span><span class="fileupload-exists">Cambiar</span><input type="file" accept="image/*"></span>
+                                        <span class="btn btn-file btn-success">
+                                            <span class="fileupload-new">Subir Imagen</span>
+                                            <span class="fileupload-exists">Cambiar</span>
+                                            <asp:FileUpload id="foto" type="file" accept="image/*" runat="server"></asp:FileUpload>
+                                        </span>
                                         <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">Quitar</a>
                                     </div>
                                 </div>
@@ -112,47 +118,48 @@
 
                         <div class="col-lg-5 col-md-5 col-sm-5">
                             <div class="form-group">
-                                <label for="nombre" class="control-label">Nombre Producto</label>
+                                <label for="nombre" class="control-label">Nombre Producto<span class="text-danger">*</span></label>
                                 <asp:TextBox id="nombre" class="form-control" runat="server"></asp:TextBox>
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
-                                <label for="tipo" class="control-label">Tipo Producto</label>
-                                <asp:DropDownList id="tipo" class="form-control" runat="server"></asp:DropDownList>
+                                <label for="tipo" class="control-label">Tipo Producto<span class="text-danger">*</span></label>
+                                <asp:DropDownList id="tipo" class="form-control" runat="server">
+                                </asp:DropDownList>
                             </div>
                         </div>
                     
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group">
-                                <label for="familia" class="control-label">Familia Producto</label>
-                                <asp:TextBox id="familia" class="form-control" runat="server"></asp:TextBox>
+                                <label for="familia" class="control-label">Familia Producto<span class="text-danger">*</span></label>
+                                <asp:DropDownList id="familiaDP" class="form-control" runat="server"></asp:DropDownList>
                             </div>
                         </div>
                     
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group">
-                                <label for="subFamilia" class="control-label">Sub Familia Producto</label>
-                                <asp:DropDownList id="subFamilia" class="form-control" runat="server"></asp:DropDownList>
+                                <label for="subFamilia" class="control-label">Sub Familia Producto<span class="text-danger">*</span></label>
+                                <asp:DropDownList id="subFamiliaDP" class="form-control" runat="server"></asp:DropDownList>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
-                                <label for="precio" class="control-label">Precio</label>
+                                <label for="precio" class="control-label">Precio<span class="text-danger">*</span></label>
                                 <asp:TextBox id="precio" type="number" class="form-control" runat="server"></asp:TextBox>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
-                                <label for="costo" class="control-label">Costo</label>
+                                <label for="costo" class="control-label">Costo<span class="text-danger">*</span></label>
                                 <asp:TextBox id="costo" type="number" class="form-control" runat="server"></asp:TextBox>
                             </div>
                         </div>
 
                         <div class="col-lg-2 col-md-2 col-sm-2">
                             <div class="form-group">
-                                <label for="stock" class="control-label">Stock</label>
+                                <label for="stock" class="control-label">Stock<span class="text-danger">*</span></label>
                                 <asp:TextBox id="stock" type="number" class="form-control" runat="server"></asp:TextBox>
                             </div>
                         </div>
@@ -161,7 +168,7 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">
-                                <label for="descripcion" class="control-label">Descripción de Producto</label><br>
+                                <label for="descripcion" class="control-label">Descripción de Producto<span class="text-danger">*</span></label><br>
                                 <asp:TextBox id="descripcion" class="form-control" TextMode="multiline" Rows="5" runat="server"></asp:TextBox>  
                             </div>
                         </div>
@@ -169,7 +176,7 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 text-center">
                             <a href="#" class="btn btn-danger btn-sm">Cancelar</a>
-                            <a href="#" class="btn btn-success">Guardar Producto</a>
+                            <asp:Button id="btnSubmit" class="btn btn-success" Text="Guardar Producto" runat="server"></asp:Button>
                         </div>
                     </div>
                     
@@ -194,6 +201,25 @@
     <!-- FileUpload -->
     <script src="assets/js/bootstrap-fileupload.js"></script>
 
+    <script type="text/javascript">
+        $( "#familia" ).change(function() {
+            $.ajax({
+                type: "GET",
+                url: 'localhost/producto.aspx?',
+                data: { op : 3 }, 
+                dataType: "json",
+                success: function(data){
+                  $.each(data,function(key, registro) {
+                    $("#subFamilia").append('<option value='+registro.id+'>'+registro.nombre+'</option>');
+                  });        
+                },
+                error: function(data) {
+                  alert('error');
+                }
+            });
+        });          
+        
+    </script>
 
 </body>
 </html>
