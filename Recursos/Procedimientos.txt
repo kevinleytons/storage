@@ -9,8 +9,12 @@ Procedimientos
 	cargarProductos();
 
 // PROCEDIMIENTOS PARA  FAMILIAS //
-
+	addFamilia(nombre, out_id);
+	deleteFamilia(id);
+	updateFamilia(id, nombre);
 	findFamilia(id);
+	cargarFamilias();
+	cargarSuSubFamilia(id);
 
 // PROCEDIMIENTOS PARA  SUBFAMILIAS //
 
