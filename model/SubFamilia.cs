@@ -48,17 +48,5 @@ namespace Model{
             control.closeConexion();
             return subFamilias;
         }
-
-        public List<SubFamilia> FindAllSubFamilyByFamily() {
-            Datos.Controlador control = new Datos.Controlador();
-            control.openConexion();
-            MySqlDataReader datos = control.seleccionar("findAllSubFamiliasByFamilia", null);
-            List<SubFamilia> subFamilias = new List<SubFamilia>();
-            while(datos.Read()){
-                subFamilias.Add(new SubFamilia(Convert.ToInt32(datos["sbf_id"]))); 
-            }
-            control.closeConexion();
-            return subFamilias;
-        }
     }
 }

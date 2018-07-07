@@ -94,7 +94,7 @@ namespace Controllers{
 							subFamiliaDP.Items.Clear();
 
 							f = new Familia();
-							familias = f.FindAllFamily();
+							familias = f.FindAllFamilias();
 
 							sf = new SubFamilia();
 							subfamilias = sf.FindAllSubFamily();
@@ -133,7 +133,7 @@ namespace Controllers{
 							}
 						}else{
 							f = new Familia();
-							familias = f.FindAllFamily();
+							familias = f.FindAllFamilias();
 
 							sf = new SubFamilia();
 							subfamilias = sf.FindAllSubFamily();
@@ -226,15 +226,16 @@ namespace Controllers{
 				case "familias":
 					mensaje.Text+=("<h1 class='text-success text-center'>familias : Page_Load()</h1>");
 					if (familias != null) {
-						foreach (Familia fam in familias){
-						listaFamilias.Text += 
-							("<div id='"+fam.id+"' class='list-group-item'>"+
-									fam.nombre+
-									"<span class='pull-right text-muted small'>"+
-										"<em>"+fam.subfamilias+" Sub-Familias</em>"+
-									"</span>"+	
-								"</div>"
-							);
+						foreach (Model.Familia familia in familias){
+							List<Model.SubFamilia> subFamilias = familia.FindAllSubFamilia();
+							int cantidad = subFamilias.Count;
+							string numSubFamilias = "";
+							if(cantidad > 0){
+								numSubFamilias = cantidad+" Sub-Familias";
+							}else{
+								numSubFamilias = "Sin Sub-Familia";
+							}
+							listaFamilias.Text += ("<div class='list-group-item'>"+familia.nombre+"<span class='pull-right text-muted small'><em>"+numSubFamilias+"</em></span></div>");
 						}
 					}	
 				break;
