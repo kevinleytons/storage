@@ -17,9 +17,25 @@ Procedimientos
 	cargarSuSubFamilia(id);
 
 // PROCEDIMIENTOS PARA  SUBFAMILIAS //
-
+	addSubFamilia(id_familia, nombre, out_id);
+	deleteSubFamilia(id);
+	updateSubFamilia(id, id_familia, nombre);
 	findSubFamilia(id);
+	findAllSubFamilias();
 
+// PROCEDIMIENTOS PARA VENTAS
+	findVenta(id);
+	addVenta(cliente, vendedor, fecha, descuento, total, iva, documento, out_id);
+	deleteVenta(id);
+	updateVenta(id, cliente, vendedor, fecha, descuento, total, iva, documento);
+	findAllVentas();
+
+// PROCEDIMIENTOS PARA USUARIOS
+	addUsuario(rut, dv, nombre, pass, tipo, mensaje);
+	findUsuario(rut);
+	deleteUsuario(rut);
+	updateUsuario(rut, dv, nombre, pass, tipo);
+	findAllUsuarios(tipo);
 
 
 

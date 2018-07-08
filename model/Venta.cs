@@ -11,20 +11,41 @@ namespace Model{
         // Declarar los atributos de la clase
         // estos son los campos de la Base de datos
 
-        private int id;
-        private Usuario usuario;
-        private DateTime fecha;
-        private int descuento;
-        private int total;
-        private int iva;
-        private char documento;
+        public int id;
+        public Usuario cliente;
+        public Usuario vendedor;
+        public DateTime fecha;
+        public int descuento;
+        public int total;
+        public int iva;
+        public char documento;
 
         // Constructor vacio de la clase
         public Venta(){}
 
+        public Venta(int id){
+            Datos.Controlador control = new Controlador();
+            control.openConexion();
+            List<Parametros> parametro = new List<Parametros>();
+            parametro.Add(new Parametros("id", id));
+            MySqlDataReader datos = control.seleccionar("findVenta", parametro);
+            while(datos.Read()){
+                this.id = Convert.ToInt32(datos["vnt_id"]);
+                this.cliente = new Usuario(datos["vnt_cli_rut"].ToString());
+                this.vendedor = new Usuario(datos["vnt_tra_rut"].ToString());
+                this.fecha = Convert.ToDateTime(datos["vnt_fecha"]);
+                this.descuento = Convert.ToInt32(datos["vnt_descuento"]);
+                this.total = Convert.ToInt32(datos["vnt_total"]);
+                this.iva = Convert.ToInt32(datos["vnt_iva"]);
+                this.documento = Convert.ToChar(datos["vnt_documento"]);
+            }
+            control.closeConexion();
+        }
+
         // Constructor con parametros
-        public Venta(Usuario usuario, DateTime fecha, int descuento, int total, int iva, char documento) {
-            this.usuario = usuario;
+        public Venta(Usuario cliente, Usuario vendedor, DateTime fecha, int descuento, int total, int iva, char documento) {
+            this.cliente = cliente;
+            this.vendedor = vendedor;
             this.fecha = fecha;
             this.descuento = descuento;
             this.total = total;
@@ -32,32 +53,43 @@ namespace Model{
             this.documento = documento;
         }
 
-        public Venta Insert(Usuario cliente, DateTime fecha, int descuento, int total, int iva, char documento) {
-            
-            //MySqlConnection conexion = Conexion.GetConexion();
-
-            //MySqlCommand comandoSQL = new MySqlCommand("INS_SONG_SP", conexion);    
-            /* CODIGO PARA EJECUTAR PROCEDIMIENTO
-    			comandoSQL.CommandType = CommandType.StoredProcedure;
-    			comandoSQL.Parameters.Add(new MySqlParameter("nusuario", user.Text));
-    			comandoSQL.Parameters.Add(new MySqlParameter("npassword", pass.Text));
-    			comandoSQL.ExecutenNonQuery();
-    		*/
-            return new Venta();
+        public void Insert() {
+            Controlador control = new Controlador();
+            control.openConexion();
+            List<Parametros> parametros = new List<Parametros>();
+            parametros.Add(new Parametros("cliente", this.cliente.rut));
+            parametros.Add(new Parametros("vendedor", this.vendedor.rut));
+            parametros.Add(new Parametros("fecha", this.fecha));
+            parametros.Add(new Parametros("descuento", this.descuento));
+            parametros.Add(new Parametros("total", this.total));
+            parametros.Add(new Parametros("iva", this.iva));
+            parametros.Add(new Parametros("documento", this.documento));
+            parametros.Add(new Parametros("out_id", MySqlDbType.Int32, 10));
+            control.ejecutarSql("addVenta", parametros);
+            this.id = Convert.ToInt32(parametros[7].Valor);
         }
 
-        public Venta Update(Usuario cliente, DateTime fecha, int descuento, int total, int iva, char documento) {
-            //MySqlConnection conexion = Conexion.GetConexion();
-            
-            //MySqlCommand comandoSQL = new MySqlCommand("UPT_SONG_SP", conexion);    
-            /* CODIGO PARA EJECUTAR PROCEDIMIENTO
-                comandoSQL.CommandType = CommandType.StoredProcedure;
-                comandoSQL.Parameters.Add(new MySqlParameter("nusuario", user.Text));
-                comandoSQL.Parameters.Add(new MySqlParameter("npassword", pass.Text));
-                comandoSQL.ExecutenNonQuery();
-            */
-            return new Venta();
+        public void Delete() {
+            Controlador control = new Controlador();
+            control.openConexion();
+            List<Parametros> parametros = new List<Parametros>();
+            parametros.Add(new Parametros("id", this.id));
+            control.ejecutarSql("deleteVenta", parametros);
+        }
 
+        public void Update() {
+            Controlador control = new Controlador();
+            control.openConexion();
+            List<Parametros> parametros = new List<Parametros>();
+            parametros.Add(new Parametros("id", this.id));
+            parametros.Add(new Parametros("cliente", this.cliente.rut));
+            parametros.Add(new Parametros("vendedor", this.vendedor.rut));
+            parametros.Add(new Parametros("fecha", this.fecha));
+            parametros.Add(new Parametros("descuento", this.descuento));
+            parametros.Add(new Parametros("total", this.total));
+            parametros.Add(new Parametros("iva", this.iva));
+            parametros.Add(new Parametros("documento", this.documento));
+            control.ejecutarSql("updateVenta", parametros);
         }
 
         public Venta FindById(int id) {
@@ -73,46 +105,18 @@ namespace Model{
             return new Venta(); 
         }
 
-        public void FindAllAlbums() {
-
-            //MySqlConnection conexion = Conexion.GetConexion();
-            //MySqlCommand comandoSQL = new MySqlCommand("FAA_SONG_SP", conexion);
-
-            //MySqlDataReader canciones = comandoSQL.ExecuteReader();
-
+        public List<Venta> FindAllVentas() {
+            Controlador control = new Controlador();
+            control.openConexion();
+            MySqlDataReader datos = control.seleccionar("findAllVentas", null);
+            List<Venta> ventas = new List<Venta>();
+            while(datos.Read()){
+                ventas.Add(new Venta(Convert.ToInt32(datos["vnt_id"]))); 
+            }
+            control.closeConexion();
+            return ventas;
         }
 
-        public void FindAllByAlbum(string album) {
-
-            //MySqlDataReader canciones = null;
-
-            //List<Usuario> usuarios = new List<Usuario>();
-            //MySqlConnection conexion = Conexion.GetConexion();
-
-            //MySqlCommand comandoSQL = new MySqlCommand("FA_SONG_SP", conexion); 
-            //comandoSQL.CommandType = CommandType.StoredProcedure;
-            //comandoSQL.Parameters.AddWithValue("@album", album);   
-            //MySqlCommand comandoSQL = new MySqlCommand("SELECT * FROM canciones WHERE can_album = '"+album+"';", conexion);    
-
-            //canciones = comandoSQL.ExecuteReader();
-
-            //if (canciones != null) {
-            //    return canciones;
-            //}else{
-            //}
-        }
-
-        public void Remove(int id) {
-            //MySqlConnection conexion = Conexion.GetConexion();
-            
-            //MySqlCommand comandoSQL = new MySqlCommand("RMV_SONG_SP", conexion);    
-            /* CODIGO PARA EJECUTAR PROCEDIMIENTO
-                comandoSQL.CommandType = CommandType.StoredProcedure;
-                comandoSQL.Parameters.Add(new MySqlParameter("nusuario", user.Text));
-                comandoSQL.Parameters.Add(new MySqlParameter("npassword", pass.Text));
-                comandoSQL.ExecutenNonQuery();
-            */            
-        }
     }
 
 }

@@ -1,21 +1,31 @@
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cargarProductos`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addFamilia`(IN nombre varchar(50),OUT out_id int)
 BEGIN
-SELECT * FROM productos;
+INSERT INTO familias(fam_nombre) VALUES(nombre);
+SET out_id = LAST_INSERT_ID();
 END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `findSubFamilia`(IN id int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addSubFamilia`(IN id_familia int, IN nombre varchar(50), OUT out_id int)
 BEGIN
-SELECT * FROM sub_familias WHERE sbf_id = id;
+INSERT INTO sub_familias(sbf_fam_id,sbf_nombre) VALUES(id_familia,nombre);
+SET out_id = LAST_INSERT_ID();
 END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `findProducto`(IN id int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cargarFamilias`()
 BEGIN
-SELECT * FROM productos WHERE pro_id = id;
+SELECT * FROM familias;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addVenta`(IN cliente varchar(8),IN vendedor varchar(8),IN fecha datetime,IN descuento int,IN total int,IN iva int,IN documento enum('B','F'),OUT out_id int)
+BEGIN
+INSERT INTO ventas(vnt_cli_rut, vnt_tra_rut, vnt_fecha, vnt_descuento, vnt_total, vnt_iva, vnt_documento) VALUES (cliente, vendedor, fecha, descuento, total, iva, documento);
+SET out_id = LAST_INSERT_ID();
 END$$
 DELIMITER ;
 
@@ -28,9 +38,39 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `findFamilia`(IN id int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addUsuario`(IN `rut` VARCHAR(8), IN `dv` CHAR(1), IN `nombre` VARCHAR(50), IN `pass` VARCHAR(50), IN `tipo` ENUM('C','T'), OUT `mensaje` VARCHAR(50))
 BEGIN
-SELECT * FROM familias WHERE fam_id = id;
+IF (SELECT count(*) FROM usuarios WHERE usu_rut = rut)>0 THEN
+BEGIN
+SET mensaje = 'Este rut ya esta registrado';
+END;
+ELSE
+BEGIN
+INSERT INTO usuarios(usu_rut, usu_dv, usu_nombre, usu_pass, usu_tipo) VALUES (rut, dv, nombre ,pass, tipo);
+SET mensaje = 'Usuario registrado con exito';
+END;
+END IF;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cargarProductos`()
+BEGIN
+SELECT * FROM productos;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cargarSuSubFamilia`(IN id int)
+BEGIN
+SELECT sbf_id, sbf_nombre FROM sub_familias WHERE sbf_fam_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteFamilia`(IN id int)
+BEGIN
+DELETE FROM familias WHERE fam_id = id;
 END$$
 DELIMITER ;
 
@@ -42,8 +82,113 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteSubFamilia`(IN id int)
+BEGIN
+DELETE FROM sub_familias WHERE sbf_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteUsuario`(IN rut varchar(8))
+BEGIN
+DELETE FROM usuarios WHERE usu_rut = rut;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteVenta`(IN id int)
+BEGIN
+DELETE FROM ventas WHERE vnt_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findAllSubFamilias`()
+BEGIN
+SELECT * FROM sub_familias;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findAllUsuarios`(IN `tipo` ENUM('C','T'))
+BEGIN
+SELECT * FROM usuarios WHERE usu_tipo = tipo;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findAllVentas`()
+BEGIN
+SELECT * FROM ventas;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findFamilia`(IN id int)
+BEGIN
+SELECT * FROM familias WHERE fam_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findProducto`(IN id int)
+BEGIN
+SELECT * FROM productos WHERE pro_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findSubFamilia`(IN id int)
+BEGIN
+SELECT * FROM sub_familias WHERE sbf_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findUsuario`(IN rut varchar(8))
+BEGIN
+SELECT * FROM usuarios WHERE usu_rut = rut;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findVenta`(IN id int)
+BEGIN
+SELECT * FROM ventas WHERE vnt_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateFamilia`(IN id int,IN nombre varchar(50))
+BEGIN
+UPDATE familias SET fam_nombre = nombre WHERE fam_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updateProduct`(IN `id` INT, IN `nombre` VARCHAR(50), IN `descripcion` VARCHAR(150), IN `foto` VARCHAR(200), IN `stock` INT, IN `costo` INT, IN `precio` INT, IN `tipo` ENUM('A','F'), IN `sub_familia_id` INT, IN `estado` ENUM('D','A','C'), IN `visibilidad` ENUM('V','O'), IN `vencimiento` DATETIME)
 BEGIN
 UPDATE productos SET pro_nombre = nombre, pro_descripcion = descripcion, pro_foto = foto, pro_stock = stock, pro_costo = costo, pro_precio = precio, pro_tipo = tipo, pro_sbf_id = sub_familia_id, pro_estado = estado, pro_visibilidad = visibilidad, pro_vencimiento = vencimiento WHERE pro_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateSubFamilia`(IN id int,IN id_familia int,IN nombre varchar(50))
+BEGIN
+UPDATE sub_familias SET sbf_fam_id = id_familia, sbf_nombre = nombre WHERE sbf_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateUsuario`(IN rut varchar(8),IN dv char(1),IN nombre varchar(50),IN pass varchar(50),IN tipo enum('C','T'))
+BEGIN
+UPDATE usuarios SET usu_dv = dv, usu_nombre = nombre, usu_pass = pass, usu_tipo = tipo WHERE usu_rut = rut;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateVenta`(IN id int,IN cliente varchar(8),IN vendedor varchar(8),IN fecha datetime,IN descuento int,IN total int,IN iva int,IN documento enum('B','F'))
+BEGIN
+UPDATE ventas SET vnt_cli_rut = cliente, vnt_tra_rut = vendedor, vnt_fecha = fecha, vnt_descuento = descuento, vnt_total = total, vnt_iva = iva, vnt_documento = documento WHERE vnt_id = id;
 END$$
 DELIMITER ;

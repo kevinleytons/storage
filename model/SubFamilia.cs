@@ -19,7 +19,7 @@ namespace Model{
         public SubFamilia(){}
 
         public SubFamilia(int id){
-            Datos.Controlador control = new Datos.Controlador();
+            Controlador control = new Controlador();
             control.openConexion();
             List<Parametros> parametro = new List<Parametros>();
             parametro.Add(new Parametros("id", id));
@@ -37,8 +37,37 @@ namespace Model{
             this.nombre = nombre;
         }
 
+        public void Insert() {
+            Controlador control = new Controlador();
+            control.openConexion();
+            List<Parametros> parametros = new List<Parametros>();
+            parametros.Add(new Parametros("id_familia", this.familia.id));
+            parametros.Add(new Parametros("nombre", this.nombre));
+            parametros.Add(new Parametros("out_id", MySqlDbType.Int32, 10));
+            control.ejecutarSql("addSubFamilia", parametros);
+            this.id = Convert.ToInt32(parametros[2].Valor);
+        }
+
+        public void Delete() {
+            Controlador control = new Controlador();
+            control.openConexion();
+            List<Parametros> parametros = new List<Parametros>();
+            parametros.Add(new Parametros("id", this.id));
+            control.ejecutarSql("deleteSubFamilia", parametros);
+        }
+
+        public void Update() {
+            Controlador control = new Controlador();
+            control.openConexion();
+            List<Parametros> parametros = new List<Parametros>();
+            parametros.Add(new Parametros("id", this.id));
+            parametros.Add(new Parametros("id_familia", this.familia.id));
+            parametros.Add(new Parametros("nombre", this.nombre));
+            control.ejecutarSql("updateSubFamilia", parametros);
+        }
+
         public List<SubFamilia> FindAllSubFamily() {
-            Datos.Controlador control = new Datos.Controlador();
+            Controlador control = new Controlador();
             control.openConexion();
             MySqlDataReader datos = control.seleccionar("findAllSubFamilias", null);
             List<SubFamilia> subFamilias = new List<SubFamilia>();
@@ -48,5 +77,18 @@ namespace Model{
             control.closeConexion();
             return subFamilias;
         }
+
+        public List<SubFamilia> FindAllSubFamilyByFamily() {
+            Controlador control = new Controlador();
+            control.openConexion();
+            MySqlDataReader datos = control.seleccionar("findAllSubFamiliasByFamilia", null);
+            List<SubFamilia> subFamilias = new List<SubFamilia>();
+            while(datos.Read()){
+                subFamilias.Add(new SubFamilia(Convert.ToInt32(datos["sbf_id"]))); 
+            }
+            control.closeConexion();
+            return subFamilias;
+        }
     }
 }
+

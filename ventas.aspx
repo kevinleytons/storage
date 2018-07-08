@@ -1,4 +1,4 @@
-<%@ Page Language="C#" Src="Controllers/Productos.aspx.cs" Inherits="Controllers.Productos" %>
+<%@ Page Language="C#" Src="Controllers/Home.aspx.cs" Inherits="Controllers.Home" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -101,24 +101,24 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Nombre</th>
-                                    <th>Stock</th>
-                                    <th>Precio</th>
-                                    <th>Visibilidad</th>
-                                    <th>Estado</th>
+                                    <th>Rut Cliente</th>
+                                    <th>Fecha</th>
+                                    <th>Descuento</th>
+                                    <th>Total</th>
+                                    <th>Documento</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <asp:Literal id="listProduct" runat="server"></asp:Literal>
+                                <asp:Literal id="listVentas" runat="server"></asp:Literal>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Nombre</th>
-                                    <th>Stock</th>
-                                    <th>Precio</th>
-                                    <th>Visibilidad</th>
-                                    <th>Estado</th>
+                                    <th>Rut Cliente</th>
+                                    <th>Fecha</th>
+                                    <th>Descuento</th>
+                                    <th>Total</th>
+                                    <th>Documento</th>
                                 </tr>
                             </tfoot>
                         </table>
