@@ -224,6 +224,54 @@
                     },
                 }   
             });
+
+            $('.familias > div.list-group-item').click(function() {
+                var id = (this.id).substring(3, this.id.lenght);
+                $.ajax({
+                    url : 'http://localhost/producto.aspx/GetSubFamilias',
+                    contentType: "application/json; charset=utf-8",
+                    data : JSON.stringify({'idFamilia':id,}),
+                    type : 'POST',
+                    dataType : 'json',
+                    success : function(json) {
+                        var array = jQuery.parseJSON(json['d']);
+                        $("#listaSubFamilias").html('');
+
+                        if (array.length > 0){
+                            $.each(array, function(i, item){
+                                sf = jQuery.parseJSON(item);
+                                $("#listaSubFamilias").append(
+                                    '<div id="sbF'+sf.id+'" class="list-group-item">'+
+                                        sf.nombre+
+                                        '<span class="pull-right text-muted small">'+
+                                            '<em>Familia acá</em>'+
+                                        '</span>'+
+                                    '</div>'
+                                );
+                            });
+                        }else{
+                            $("#listaSubFamilias").append(
+                                '<div class="text-center">'+
+                                    '<i class="fas fa-arrow-up fa-5x text-info"></i>'+
+                                    '<p class="text-info small">(Crea Una Nueva Subfamilia)</p>'+
+                                    '<h2 class="text-center text-danger">'+
+                                        'Esta Familia No Posee Sub-Familias'+
+                                    '</h2>'+
+                                '</div>'
+                            );
+                        }
+                    },
+                    error : function(xhr, status, nose) {
+                        $("#listaSubFamilias").append(
+                            '<h4 class="text-info">'+
+                                'Problemas En Cargar SubFamilias<br> '+status+
+                            '</h4>'
+                        );
+                    }
+                });
+            });
+
+
         } );
     </script>
 

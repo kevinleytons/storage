@@ -1,4 +1,4 @@
-<%@ Page Language="C#" Src="Controllers/Productos.aspx.cs" Inherits="Controllers.Productos"%>
+<%@ Page Language="C#" EnableEventValidation="false" Src="Controllers/Productos.aspx.cs" Inherits="Controllers.Productos" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -140,27 +140,34 @@
                     
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group">
-                                <label for="subFamilia" class="control-label">Sub Familia Producto<span class="text-danger">*</span></label>
+                                <label for="subFamiliaDP" class="control-label">Sub Familia Producto<span class="text-danger">*</span></label>
                                 <asp:DropDownList id="subFamiliaDP" class="form-control" runat="server"></asp:DropDownList>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="col-lg-2 col-md-2 col-sm-2">
                             <div class="form-group">
                                 <label for="precio" class="control-label">Precio<span class="text-danger">*</span></label>
                                 <asp:TextBox id="precio" type="number" class="form-control" runat="server"></asp:TextBox>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="col-lg-2 col-md-2 col-sm-2">
                             <div class="form-group">
                                 <label for="costo" class="control-label">Costo<span class="text-danger">*</span></label>
                                 <asp:TextBox id="costo" type="number" class="form-control" runat="server"></asp:TextBox>
                             </div>
                         </div>
 
-                        <div class="col-lg-2 col-md-2 col-sm-2">
+                        <div class="col-lg-1 col-md-1 col-sm-1">
                             <div class="form-group">
                                 <label for="stock" class="control-label">Stock<span class="text-danger">*</span></label>
                                 <asp:TextBox id="stock" type="number" class="form-control" runat="server"></asp:TextBox>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group">
+                                <label for="fechaV" class="control-label">Fecha Vencimiento</label>
+                                <asp:TextBox id="fechaV" type="date" class="form-control" runat="server"></asp:TextBox>
                             </div>
                         </div>
 
@@ -202,19 +209,38 @@
     <script src="assets/js/bootstrap-fileupload.js"></script>
 
     <script type="text/javascript">
-        $( "#familia" ).change(function() {
+        $( "#familiaDP" ).change(function() {
+            var id = $(this).val();
             $.ajax({
-                type: "GET",
-                url: 'localhost/producto.aspx?',
-                data: { op : 3 }, 
-                dataType: "json",
-                success: function(data){
-                  $.each(data,function(key, registro) {
-                    $("#subFamilia").append('<option value='+registro.id+'>'+registro.nombre+'</option>');
-                  });        
+                url : 'http://localhost/producto.aspx/GetSubFamilias',
+                contentType: "application/json; charset=utf-8",
+                data : JSON.stringify({'idFamilia':id,}),
+                type : 'POST',
+                dataType : 'json',
+                success : function(json) {
+                    var array = jQuery.parseJSON(json['d']);
+                    $("#subFamiliaDP").html(
+                        '<option value="0" disabled="disabled">--- Seleccionar Sub-Familia ---</option>'
+                    );
+                    if (array.length > 0){
+                        $.each(array, function(i, item){
+                            sf = jQuery.parseJSON(item);
+                            $("#subFamiliaDP").append(
+                                '<option value="'+sf.id+'">'+
+                                    sf.nombre+
+                                '</option>'
+                            );
+                        });
+                    }else{
+                        $("#subFamiliaDP").append('');
+                    }
                 },
-                error: function(data) {
-                  alert('error');
+                error : function(xhr, status, nose) {
+                    $("#listaSubFamilias").append(
+                        '<h4 class="text-info">'+
+                            'Problemas En Cargar SubFamilias<br> '+status+
+                        '</h4>'
+                    );
                 }
             });
         });          

@@ -20,27 +20,30 @@ using Model;
 namespace Controllers{
 
 	public class Productos : Page{
-
-		// Se capturan con ID de input
 		protected Literal mensaje, listProduct, listaFamilias;
-		protected TextBox nombre, precio, costo, stock, descripcion, familia;
+		protected TextBox nombre, precio, costo, stock, descripcion, familia, fechaV;
 		protected FileUpload foto;
 		protected DropDownList tipo, familiaDP, subFamiliaDP;
 		private List<Producto> productos;
 		private List<Familia> familias; 
 		private List<SubFamilia> subfamilias;
-		private Producto p;
+		private Producto p = null;
 		private Familia f;
 		private SubFamilia sf;
 		protected string opcion;
 		protected string url = HttpContext.Current.Request.Url.AbsoluteUri;
 		private string[] view;
+		private List<string> errores;
 		
 		protected void Page_Init(){
 			// Autenticacion de usuario
 		}
 
+		/*
+		*	Page_PreLoad()
+		*/
 		protected void Page_PreLoad(){
+			mensaje.Text=("");
 			// Cargar recursos
 			try{
 				opcion = Convert.ToString(Request.QueryString["op"]);
@@ -49,46 +52,19 @@ namespace Controllers{
 			 	view = vista.Split('.');
 
 				switch (view[0]){
+				
+				// Peticiones de Vista "Producto.aspx"
 					case "producto":
 						if (IsPostBack){
 							// ¡¡Registrar nuevo producto!!
-							try {
-								bool 	img_pro = foto.HasFile;
-								string 	nom_pro = nombre.Text;
-								string 	fam_pro = familiaDP.Text;
-								string 	sbm_pro = subFamiliaDP.Text;
-								string  tip_pro = tipo.Text;
-								int 	pre_pro = Int32.Parse(precio.Text);
-								int 	cos_pro = Int32.Parse(costo.Text);
-								int 	sto_pro = Int32.Parse(stock.Text);
-								string 	des_pro = descripcion.Text;
-								if (img_pro != null) {
-									
-								}
-								p = new Producto(
-									nom_pro, 
-									des_pro, 
-									foto.FileName,
-									sto_pro,
-									cos_pro,
-									pre_pro, 
-									'F', 
-									new SubFamilia(1), 
-									'D', 
-									'V', 
-									new DateTime()
-								);
-
-								// Guardando Nuevo Producto!
-								//p.Insert();
-								
-
-							} catch (System.Exception e) {
-								mensaje.Text+=("<h2 class='text-danger text-center'>*Debe Completar Formulario*</h2>");
+							errores = ValidarNuevoProducto();
+							if (errores.Count > 0) {
+								ImprimirErrores();
+							}else{
+								p = RegistrarProducto();
 							}
-							
 						}else{
-
+							// Cargar Elementos de Vista
 							tipo.Items.Clear();
 							familiaDP.Items.Clear();
 							subFamiliaDP.Items.Clear();
@@ -98,37 +74,28 @@ namespace Controllers{
 
 							sf = new SubFamilia();
 							subfamilias = sf.FindAllSubFamily();
-							if (familias.Count == 0 || subfamilias.Count == 0 ) {
-								opcion = "4";
-							}
 						}
 					break;
+
+				// Peticiones de Vista "Productos.aspx"
 					case "productos":
 						// Mostrar todos los productos
 						// Cargando recursos
 						p = new Producto();
 						productos = p.FindAllProduct();
-					break;
-					case "familias":
 
+					break;
+					
+				// Peticiones de Vista "Familias.aspx"
+					case "familias":
+						// Guardar Familia
 						if(IsPostBack){
 							switch (opcion){
-								case "todos":
-									// Obtener subfamilias para familia
-									sf = new SubFamilia();
-
-									subfamilias = sf.FindAllSubFamilyByFamily();
-									/*
-									string json = "{\"name\":\"Joe\"}";
-									Response.Clear();
-									Response.ContentType = "application/json; charset=utf-8";
-									Response.Write(json);
-									Response.End();
-									*/
-								break;
-								default:
+								case "familia":
 									// Guardar Nueva Familia
-									
+								break;
+								case "subFamilia":
+									// Guardar Nueva Sub-Familia
 								break;
 							}
 						}else{
@@ -138,109 +105,50 @@ namespace Controllers{
 							sf = new SubFamilia();
 							subfamilias = sf.FindAllSubFamily();
 						}
-						
-
 					break;
-					case "3":
-						// Buscar Subfamilias de familia
-
-					break;
-					case "4":
-						// Mostrar producto especifico
-
-					break;
-					default:
-						mensaje.Text+=("<h1 class='text-danger text-center'>Default</h1>");
-			  		break;
 				}	
-
 			}catch(Exception ex){
-				mensaje.Text+=(""+ex.ToString()+"");
+				mensaje.Text+=("Error :"+ex.ToString()+"");
 			}
 		}
 
+		/*
+		*	Page_Load()
+		*/
 		protected void Page_Load(){
-
 			switch (view[0]){
 				case "producto":
 					if(IsPostBack){
-						mensaje.Text+=(
-							"<h4 class='text-info text-center'>"+
-								p.nombre+" - "+
-								p.tipo+" - "+
-								p.descripcion+" - "+
-								p.foto+" - "+
-								p.precio+" - "+
-								p.costo+" - "+
-								p.stock+" - "+
-								p.sub_familia.id+" - "+
-							"</h4>"
-						);
-
+						if( p != null){
+							Response.Redirect("productos.aspx?op=SuccessRedirect");
+						}
 					}else{
-						mensaje.Text+=("<h1 class='text-success text-center'>productos : Page_Load()</h1>");
-
-						// cargar pagina
-						tipo.Items.Insert(tipo.Items.Count, new ListItem("--- Seleccionar Tipo ---", "0"));
-						tipo.Items[0].Attributes.Add("selected", "selected");
-						tipo.Items[0].Attributes.Add("disabled", "disabled");
-						tipo.Items.Insert( tipo.Items.Count, new ListItem("Activo Fijo", "1"));
-						tipo.Items.Insert( tipo.Items.Count, new ListItem("Fungible", "2"));
-
-						familiaDP.Items.Insert(familiaDP.Items.Count, new ListItem("--- Seleccionar Familia ---", "0"));
-						familiaDP.Items[0].Attributes.Add("selected", "selected");
-						familiaDP.Items[0].Attributes.Add("disabled", "disabled");
-						int loop = 1;
-						foreach(Familia fam in familias) {
-							familiaDP.Items.Insert( familiaDP.Items.Count, new ListItem(fam.nombre, loop.ToString()));
-							loop++;
-						}
-
-						subFamiliaDP.Items.Insert(subFamiliaDP.Items.Count, new ListItem("--- Seleccionar Sub-Familia ---", "0"));
-						subFamiliaDP.Items[0].Attributes.Add("selected", "selected");
-						subFamiliaDP.Items[0].Attributes.Add("disabled", "disabled");
-						loop = 1;
-						foreach(SubFamilia sfam in subfamilias) {
-							subFamiliaDP.Items.Insert( subFamiliaDP.Items.Count, new ListItem(sfam.nombre, loop.ToString()));
-							loop++;
-						}
+						CargarFormulario();
 					}
-					
-
 				break;
 				case "productos":
-					mensaje.Text+=("<h1 class='text-success text-center'>productos : Page_Load()</h1>");
-
-					foreach (Producto producto in productos){
-						listProduct.Text += 
-							("<tr><td>"+producto.id+
-								"</td><td>"+producto.nombre+
-								"</td><td>"+producto.stock+
-								"</td><td>"+producto.precio+
-								"</td><td>"+(producto.visibilidad=='V'?"Visible":"No Visible")+
-								"</td><td>"+(producto.estado=='D'?"Disponible":(producto.estado=='A'?"Agotado":"Crítico"))+"</td></tr>"
+					switch (opcion){
+						// Redirección desde Creación de Producto
+						case "SuccessRedirect":
+							mensaje.Text=("");
+							mensaje.Text+=(
+								"<div class='alert alert-success alert-dismissable text-center'>"+
+		                        	"<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+
+		                        	"Producto <span class='alert-link'>"+p.nombre+"</span> Registrado Correctamente! "+
+		                    	"</div>"
 							);
+						break;
+						default:
+						break;
 					}
+					// Cargando Lista de Productos
+					CargarProductos();
 
 				break;
 				case "familias":
-					mensaje.Text+=("<h1 class='text-success text-center'>familias : Page_Load()</h1>");
 					if (familias != null) {
-						foreach (Model.Familia familia in familias){
-							List<Model.SubFamilia> subFamilias = familia.FindAllSubFamilia();
-							int cantidad = subFamilias.Count;
-							string numSubFamilias = "";
-							if(cantidad > 0){
-								numSubFamilias = cantidad+" Sub-Familias";
-							}else{
-								numSubFamilias = "Sin Sub-Familia";
-							}
-							listaFamilias.Text += ("<div class='list-group-item'>"+familia.nombre+"<span class='pull-right text-muted small'><em>"+numSubFamilias+"</em></span></div>");
-						}
+						ImprimirFamilias();
 					}	
-				break;
-				case "3":
-
 				break;
 				case "4":
 					//Mostrar mensaje de error
@@ -249,85 +157,169 @@ namespace Controllers{
 				default:
 					mensaje.Text+=("<h1 class='text-success text-center'>Default Page_Load()</h1>");
 			  	break;
-
 			}
-
-			/*
-			// Este es un ejemplo de como agregar un nuevo producto 
-			string nombre = "Lavadora LG";
-			string descripcion = "Dimension 15x10x8";
-			string foto = "lavadora.jpg";
-			int stock = 10;
-			int costo = 55000;
-			int precio = 123500;
-			char tipo = 'A';
-			Model.SubFamilia sub_familia = new Model.SubFamilia(1);
-			char estado = 'D';
-			char visibilidad = 'V';
-			DateTime vencimiento = new DateTime(2018, 3, 1, 7, 0, 0);
-			Model.Producto pro = new Model.Producto(nombre,descripcion,foto,stock,costo,precio,tipo,sub_familia,estado,visibilidad,vencimiento);
-			pro.Insert();
-			listProduct.Text += ("<tr><td>"+pro.id+"</td><td>"+pro.nombre+"</td><td>"+pro.stock+"</td><td>"+pro.precio+"</td><td>"+pro.visibilidad+"</td><td>"+pro.estado+"</td></tr>");
-			*/
 		}
 
-	}
-	
-	/*
-	public partial class _Default : Page {
-	  	[WebMethod]
-	  	public static string GetDate(string someParameter) {
-	    	return DateTime.Now.ToString();
-	  	}
-	}
-	
-	[ScriptService]
-	public class Subfamilias : WebService{
-		private static SubFamilia sf;
-		private static List<SubFamilia> subfamilias;
+		/******************************************  FUNCIONES  ******************************************/
 
+		/*
+		*	Metodo validador de TextBoxes
+		*   Formulario de creación de nuevo Producto
+		*	View (producto.aspx)
+		*/
+		public List<string> ValidarNuevoProducto(){
+			DateTime fecha;
+			List<string> errs = new List<String>(); 
+			TextBox[] textBoxes = new TextBox[] {nombre,descripcion,stock,costo,precio};
+			foreach (var txtBx in textBoxes){
+				if (String.IsNullOrEmpty(txtBx.Text)) {
+					errs.Add(txtBx.ID);
+				}
+			}
+			if (tipo.Text == "0") {
+				errs.Add("Tipo");
+			}
+			if (!foto.HasFile) {
+				errs.Add("Foto");
+			}
+			if (String.IsNullOrEmpty(familiaDP.Text)) {
+				errs.Add("Familia");
+			}
+			if (Request.Form["subFamiliaDP"] == "0") {
+				errs.Add("Sub-Familia");
+			}
+			if (DateTime.TryParse(fechaV.Text ,out fecha)) {
+				fecha = Convert.ToDateTime(fechaV.Text);
+			}else{
+				fecha = new DateTime();
+			}
+			return errs;
+		}
+
+		/*
+		*  Registrar Nuevo Producto
+		*/
+		public Producto RegistrarProducto(){
+			DateTime fecha;
+			if (DateTime.TryParse(fechaV.Text ,out fecha)) {
+				fecha = Convert.ToDateTime(fechaV.Text);
+			}else{
+				fecha = new DateTime();
+			}
+			Producto p = null;
+			p = new Producto(
+				nombre.Text, 
+				descripcion.Text, 
+				foto.FileName,
+				Int32.Parse(stock.Text),
+				Int32.Parse(costo.Text),
+				Int32.Parse(precio.Text),
+				Convert.ToChar(tipo.Text), 
+				new SubFamilia(Int32.Parse(Request.Form["subFamiliaDP"])), 
+				'D', 
+				'V',
+				Convert.ToDateTime(fecha)
+			);
+			p.Insert();
+			return p;
+		}
+
+		/*
+		*	Cargar formulario de Creación de productos
+		*/
+		public void CargarFormulario(){
+			// cargar pagina
+			tipo.Items.Insert(tipo.Items.Count, new ListItem("--- Seleccionar Tipo ---", "0"));
+			tipo.Items[0].Attributes.Add("selected", "selected");
+			tipo.Items[0].Attributes.Add("disabled", "disabled");
+			tipo.Items.Insert( tipo.Items.Count, new ListItem("Activo Fijo", "A"));
+			tipo.Items.Insert( tipo.Items.Count, new ListItem("Fungible", "F"));
+
+			familiaDP.Items.Insert(familiaDP.Items.Count, new ListItem("--- Seleccionar Familia ---", "0"));
+			familiaDP.Items[0].Attributes.Add("selected", "selected");
+			familiaDP.Items[0].Attributes.Add("disabled", "disabled");
+			foreach(Familia fam in familias) {
+				familiaDP.Items.Insert( familiaDP.Items.Count, new ListItem(fam.nombre, fam.id.ToString()));
+			}
+
+			subFamiliaDP.Items.Insert(subFamiliaDP.Items.Count, new ListItem("--- Seleccionar Sub-Familia ---", "0"));
+			subFamiliaDP.Items[0].Attributes.Add("disabled", "disabled");
+			subFamiliaDP.Items[0].Attributes.Add("selected", "selected");
+		}
+		
+		public void ImprimirErrores(){
+			mensaje.Text+=(
+				"<h3 class='text-danger text-center'>Complete los siguientes campos</h3>"
+					+"<div class='row'>"
+						+"<div class='col-md-2'></div>"
+						+"<div class='col-md-8 alert alert-warning'>"
+							+"<ul class='text-center list-inline text-info'>"
+			);
+			foreach (var err in errores){
+				mensaje.Text+=("<li>"+err+"</li>");
+			}
+			mensaje.Text+=("</ul></div></div>");
+		}
+
+
+		/*
+		*	Cargar Lista Con Productos en vista "Productos.aspx"
+		*/
+		public void CargarProductos(){
+			foreach (Producto producto in productos){
+				listProduct.Text += 
+				("<tr><td>"+producto.id+
+					"</td><td>"+producto.nombre+
+					"</td><td>"+producto.stock+
+					"</td><td>"+producto.precio+
+					"</td><td>"+(producto.visibilidad=='V'?"Visible":"No Visible")+
+					"</td><td>"+(producto.estado=='D'?"Disponible":(producto.estado=='A'?"Agotado":"Crítico"))+"</td></tr>"
+				);
+			}
+		}
+
+
+		/*
+		*	Cargar Familias Para Vista "familias.apsx"
+		*/
+		public void ImprimirFamilias(){
+			foreach (Model.Familia familia in familias){
+				List<Model.SubFamilia> subFamilias = familia.FindAllSubFamilia();
+				int cantidad = subFamilias.Count;
+				string numSubFamilias = "";
+				if(cantidad > 0){
+					numSubFamilias = cantidad+" Sub-Familias";
+				}else{
+					numSubFamilias = "Sin Sub-Familia";
+				}
+				listaFamilias.Text += (
+					"<div id='fam"+familia.id+"' class='list-group-item'>"+
+						familia.nombre+
+						"<span class='pull-right text-muted small'>"+
+							"<em>"+numSubFamilias+"</em>"+
+						"</span>"+
+					"</div>"
+				);
+			}
+		}
+
+		/*
+		*	WebMethod utilizado con ajax
+		*	Obtener todas las subfamilias de una familia
+		*/
 		[WebMethod]
-	    public static string GetSubFamilies(int id){
-	        sf = new SubFamilia();
-			subfamilias = sf.FindAllSubFamilyByFamily();
-
-			JArray array = new JArray();
-			foreach (SubFamilia sb in subfamilias) {
-				array.Add(sb);
+		public static string GetSubFamilias(int idFamilia){
+			Familia familia = new Familia(idFamilia);
+			List<SubFamilia> subFamilias = familia.FindAllSubFamilia();
+			JArray sbfArray = new JArray();
+		    string json;
+			foreach (SubFamilia sbf in subFamilias) {
+				json = JsonConvert.SerializeObject(sbf);
+				sbfArray.Add(json);
 			}
+			json = sbfArray.ToString();
+		    return json;
 
-			JObject o = new JObject();
-			o["subFamilias"] = array;
-			
-	        return o.ToString();
-	    }
-	}
-	*/
-
-	/*
-
-	[WebInvoke(UriTemplate = "GetSubFamilies", Method = "POST", ResponseFormat = WebMessageFormat.Json)]
-	
-		public Object GetSubFamilies(Object data){
-			private SubFamilia sf;
-			private List<SubFamilia> subfamilias;
-		 	
-		 	sf = new SubFamilia();
-			subfamilias = sf.FindAllSubFamilyByFamily();
-
-			JArray array = new JArray();
-			foreach (SubFamilia sb in subfamilias) {
-				array.Add(sb);
-			}
-
-			JObject o = new JObject();
-			o["subFamilias"] = array;
-			
-	        return o.ToString();
-		 	return ;
 		}
-	
-	*/
-
+	}
 }
-
