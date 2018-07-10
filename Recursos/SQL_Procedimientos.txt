@@ -1,7 +1,7 @@
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addFamilia`(IN nombre varchar(50),OUT out_id int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addCompra`(IN trabajador varchar(8),IN fecha datetime,IN total int,IN tipo enum('G','C'),OUT out_id int)
 BEGIN
-INSERT INTO familias(fam_nombre) VALUES(nombre);
+INSERT INTO compras(com_tra_rut, com_fecha, com_total, com_tipo) VALUES (trabajador, fecha, total, tipo);
 SET out_id = LAST_INSERT_ID();
 END$$
 DELIMITER ;
@@ -15,25 +15,34 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cargarFamilias`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addDetalleCompra`(IN id_compra int,IN id_producto int,IN cantidad int,IN subtotal int,IN estado enum('S','R','A'),OUT mensaje varchar(50))
 BEGIN
-SELECT * FROM familias;
+IF (SELECT count(*) FROM detalle_compras WHERE dtc_com_id = id_compra AND dtc_pro_id = id_producto)>0 THEN
+BEGIN
+SET mensaje = 'Este detalla ya se encuentra registrado';
+END;
+ELSE
+BEGIN
+INSERT INTO detalle_compras(dtc_com_id, dtc_pro_id, dtc_cantidad, dtc_subtotal, dtc_estado) VALUES (id_compra, id_producto, cantidad, subtotal, estado);
+SET mensaje = 'Detalle registrado con exito';
+END;
+END IF;
 END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addVenta`(IN cliente varchar(8),IN vendedor varchar(8),IN fecha datetime,IN descuento int,IN total int,IN iva int,IN documento enum('B','F'),OUT out_id int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addDetalleVenta`(IN id_venta int,IN id_producto int,IN cantidad int,IN subtotal int,OUT mensaje varchar(50))
 BEGIN
-INSERT INTO ventas(vnt_cli_rut, vnt_tra_rut, vnt_fecha, vnt_descuento, vnt_total, vnt_iva, vnt_documento) VALUES (cliente, vendedor, fecha, descuento, total, iva, documento);
-SET out_id = LAST_INSERT_ID();
-END$$
-DELIMITER ;
-
-DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `add_producto`(IN `nombre` VARCHAR(50), IN `descripcion` VARCHAR(150), IN `foto` VARCHAR(200), IN `stock` INT, IN `costo` INT, IN `precio` INT, IN `tipo` ENUM('A','F'), IN `sub_familia_id` INT, IN `estado` ENUM('D','A','C'), IN `visibilidad` ENUM('V','O'), IN `vencimiento` DATETIME, OUT `out_id` INT)
+IF (SELECT count(*) FROM detalle_ventas WHERE dvt_vnt_id = id_venta AND dvt_pro_id = id_producto)>0 THEN
 BEGIN
-INSERT INTO productos(pro_nombre, pro_descripcion, pro_foto, pro_stock, pro_costo, pro_precio, pro_tipo, pro_sbf_id, pro_estado, pro_visibilidad, pro_vencimiento) VALUES(nombre, descripcion, foto, stock, costo, precio, tipo, sub_familia_id, estado, visibilidad, vencimiento);
-SET out_id = LAST_INSERT_ID();
+SET mensaje = 'Este detalle ya se encuentra registrado';
+END;
+ELSE
+BEGIN
+INSERT INTO detalle_ventas(dvt_vnt_id, dvt_pro_id, dvt_cantidad, dvt_subtotal) VALUES (id_venta, id_producto, cantidad, subtotal);
+SET mensaje = 'Detalle registrado con exito';
+END;
+END IF;
 END$$
 DELIMITER ;
 
@@ -54,6 +63,37 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addFamilia`(IN nombre varchar(50),OUT out_id int)
+BEGIN
+INSERT INTO familias(fam_nombre) VALUES(nombre);
+SET out_id = LAST_INSERT_ID();
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addVenta`(IN cliente varchar(8),IN vendedor varchar(8),IN fecha datetime,IN descuento int,IN total int,IN iva int,IN documento enum('B','F'),OUT out_id int)
+BEGIN
+INSERT INTO ventas(vnt_cli_rut, vnt_tra_rut, vnt_fecha, vnt_descuento, vnt_total, vnt_iva, vnt_documento) VALUES (cliente, vendedor, fecha, descuento, total, iva, documento);
+SET out_id = LAST_INSERT_ID();
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_producto`(IN `nombre` VARCHAR(50), IN `descripcion` VARCHAR(150), IN `foto` VARCHAR(200), IN `stock` INT, IN `costo` INT, IN `precio` INT, IN `tipo` ENUM('A','F'), IN `sub_familia_id` INT, IN `estado` ENUM('D','A','C'), IN `visibilidad` ENUM('V','O'), IN `vencimiento` DATETIME, OUT `out_id` INT)
+BEGIN
+INSERT INTO productos(pro_nombre, pro_descripcion, pro_foto, pro_stock, pro_costo, pro_precio, pro_tipo, pro_sbf_id, pro_estado, pro_visibilidad, pro_vencimiento) VALUES(nombre, descripcion, foto, stock, costo, precio, tipo, sub_familia_id, estado, visibilidad, vencimiento);
+SET out_id = LAST_INSERT_ID();
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cargarFamilias`()
+BEGIN
+SELECT * FROM familias;
+END$$
+DELIMITER ;
+
+DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cargarProductos`()
 BEGIN
 SELECT * FROM productos;
@@ -64,6 +104,27 @@ DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cargarSuSubFamilia`(IN id int)
 BEGIN
 SELECT sbf_id, sbf_nombre FROM sub_familias WHERE sbf_fam_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteCompra`(IN id int)
+BEGIN
+DELETE FROM compras WHERE com_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteDetalleCompra`(IN id_compra int,IN id_producto int)
+BEGIN
+DELETE FROM detalle_compras WHERE dtc_com_id = id_compra AND dtc_pro_id = id_producto;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteDetalleVenta`(IN id_venta int,IN id_producto int)
+BEGIN
+DELETE FROM detalle_ventas WHERE dvt_vnt_id = id_venta AND dvt_pro_id = id_producto;
 END$$
 DELIMITER ;
 
@@ -103,6 +164,41 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findAllCompras`()
+BEGIN
+SELECT * FROM compras;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findAllDetalleCompras`()
+BEGIN
+SELECT * FROM detalle_compras;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findAllDetalleVentas`()
+BEGIN
+SELECT * FROM detalle_ventas;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findAllDetallesCompra`(IN id_compra int)
+BEGIN
+SELECT * FROM detalle_compras WHERE dtc_com_id = id_compra;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findAllDetallesVenta`(IN id_venta int)
+BEGIN
+SELECT * FROM detalle_ventas WHERE dvt_vnt_id = id_venta;
+END$$
+DELIMITER ;
+
+DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `findAllSubFamilias`()
 BEGIN
 SELECT * FROM sub_familias;
@@ -120,6 +216,27 @@ DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `findAllVentas`()
 BEGIN
 SELECT * FROM ventas;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findCompra`(IN id int)
+BEGIN
+SELECT * FROM compras WHERE com_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findDetalleCompra`(IN id_compra int,IN id_producto int)
+BEGIN
+SELECT * FROM detalle_compras WHERE dtc_com_id = id_compra AND dtc_pro_id = id_producto;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findDetalleVenta`(IN id_venta int,IN id_producto int)
+BEGIN
+SELECT * FROM detalle_ventas WHERE dvt_vnt_id = id_venta AND dvt_pro_id = id_producto;
 END$$
 DELIMITER ;
 
@@ -155,6 +272,27 @@ DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `findVenta`(IN id int)
 BEGIN
 SELECT * FROM ventas WHERE vnt_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateCompra`(IN id int,IN trabajador varchar(8),IN fecha datetime,IN total int,IN tipo enum('G','C'))
+BEGIN
+UPDATE compras SET com_tra_rut = trabajador, com_fecha = fecha, com_total = total, com_tipo = tipo WHERE com_id = id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateDetalleCompra`(IN id_compra int,IN id_producto int,IN cantidad int,IN subtotal int,IN estado enum('S','R','A'))
+BEGIN
+UPDATE detalle_compras SET dtc_cantidad = cantidad, dtc_subtotal = subtotal, dtc_estado = estado WHERE dtc_com_id = id_compra AND dtc_pro_id = id_producto;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateDetalleVenta`(IN id_venta int,IN id_producto int,IN cantidad int,IN subtotal int)
+BEGIN
+UPDATE detalle_ventas SET dvt_cantidad = cantidad, dvt_subtotal = subtotal WHERE dvt_vnt_id = id_venta AND dvt_pro_id = id_producto;
 END$$
 DELIMITER ;
 

@@ -37,5 +37,29 @@ Procedimientos
 	updateUsuario(rut, dv, nombre, pass, tipo);
 	findAllUsuarios(tipo);
 
+// PROCEDIMIENTOS PARA DETALLE VENTAS
+	addDetalleVenta(id_venta, id_producto, cantidad, subtotal, mensaje);
+	deleteDetalleVenta(id_venta, id_producto);
+	updateDetalleVenta(id_venta, id_producto, cantidad, subtotal);
+	findDetalleVenta(id_venta, id_producto);
+	findAllDetalleVentas();
+	FindAllDetallesVenta(id_venta);
+
+// PROCEDIMIENTOS PARA COMPRAS
+	addCompra(trabajador, fecha, total, tipo, out_id);
+	deleteCompra(id);
+	updateCompra(id, trabajador, fecha, total, tipo);
+	findCompra(id);
+	findAllCompras();
+
+// PROCEDIMIENTOS PARA DETALLE COMPRAS
+	addDetalleCompra(id_compra, id_producto, cantidad, subtotal, estado, mensaje);
+	deleteDetalleCompra(id_compra, id_producto);
+	updateDetalleCompra(id_compra, id_producto, cantidad, subtotal, estado);
+	findDetalleCompra(id_compra, id_producto);
+	findAllDetalleCompras();
+	findAllDetallesCompra(id_compra);
+
+
 
 
