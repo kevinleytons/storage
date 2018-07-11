@@ -102,6 +102,7 @@
                         <table id="tablaProductos" class="display">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Id</th>
                                     <th>Nombre</th>
                                     <th>Stock</th>
@@ -111,10 +112,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <asp:Literal id="listProduct" runat="server"></asp:Literal>
                             </tbody>
                             <tfoot>
                                 <tr>
+                                    <th></th>
                                     <th>Id</th>
                                     <th>Nombre</th>
                                     <th>Stock</th>
@@ -152,35 +153,72 @@
     <!-- JQUERY DATA TABLES SCRIPT -->
     <script>
         $(document).ready( function () {
+            
             var tabla = $('#tablaProductos').DataTable({
-
+                "ajax": {
+                    "type": "POST",
+                    "url": "http://localhost/producto.aspx/CargarProductos",
+                    "contentType": "application/json; charset=utf-8",
+                    "dataType": "json",
+                    "dataSrc": "d",
+                },
+                "columns": [
+                    {
+                        "className": 'details-control',
+                        "data":      null,
+                        "defaultContent": '',
+                        "orderable": false,
+                    },
+                    { "data": "id" , "orderable": false,},
+                    { "data": "nombre" },
+                    { "data": "stock" },
+                    { "data": "precio" },
+                    { "data": function ( row, type, val, meta ) {
+                        if(row.visibilidad=='V'){row.visibilidad="Visible"}else{row.visibilidad="No Visible"}
+                        return row.visibilidad;
+                        }
+                    },
+                    { "data": function ( row, type, val, meta ) {
+                            if(row.estado=='D'){
+                                row.estado="Disponible";
+                            }else{
+                                if(row.estado=='A'){
+                                    row.estado="Agotado";
+                                }else{
+                                    row.estado="Crítico";
+                                }
+                            } 
+                            return row.estado;
+                        }
+                    },
+                ],
                 "initComplete": function () {
                     this.api().columns().every( function () {
                         var column = this;
-                        var select = $('<br><select class="form-control"><option value=""></option></select>')
-                            .appendTo( $(column.header()))
-                            .on( 'change', function () {
-                                var val = $.fn.dataTable.util.escapeRegex(
-                                    $(this).val()
-                                );
-                                column
-                                    .search( val ? '^'+val+'$' : '', true, false )
-                                    .draw();
+                        if (column[0] != 0) {
+                            var select = $('<br><select class="form-control"><option value=""></option></select>')
+                                .appendTo( $(column.header()))
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+                                    column
+                                        .search( val ? '^'+val+'$' : '', true, false )
+                                        .draw();
+                                } );
+             
+                            column.data().unique().sort().each( function ( d, j ) {
+                                select.append( '<option value="'+d+'">'+d+'</option>' )
                             } );
-         
-                        column.data().unique().sort().each( function ( d, j ) {
-                            select.append( '<option value="'+d+'">'+d+'</option>' )
-                        } );
+                        }                        
                     } );
                 },
-
-
                 "language": {
                     "search": "Buscar:",
                     "lengthMenu": "Mostrar _MENU_ Entradas",
                     "loadingRecords": "Cargando Datos...",
-                    "zeroRecords": "No se encontraron datos",
-                    "infoEmpty": "No hay datos para mostrar",
+                    "zeroRecords": "No Se Encontraron Productos Registrados",
+                    "infoEmpty": "No Hay Datos Para Mostrar",
                     "processing": "Procesando..",
                     "info": "Mostrando del _START_ al _END_, de un total de _TOTAL_ productos",
                     "paginate": {
@@ -188,33 +226,47 @@
                         "previous": "Anterior"
                     },
                 },
-
             });
 
-            $('th').off();
-            $(".form-control").css("cursor","default");
-            $("th").css("cursor","pointer");
-
-            var orden = false;
-  
-            //$("#tablaProductos thead tr th:not(:input[type=select])").on("click",function(event){
-            $("th").on("click",function(event){
-
-                var columna = tabla.column($(this)).index();
-                
-                if (orden == false){
-                    tabla.order([columna, 'desc']).draw();
-                    orden = true;
-                }else{
-                    tabla.order([columna, 'asc']).draw();
-                    orden = false;
+            $('#tablaProductos tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = tabla.row( tr );
+         
+                if ( row.child.isShown() ) {
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    // Open this row
+                    row.child( format(row.data()) ).show();
+                    tr.addClass('shown');
                 }
             });
-            
 
         } );
-    </script>
 
+        function format ( d ) {
+            return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+                '<tr>'+
+                    '<td class="text-info">Descripción de Producto:</td>'+
+                    '<td>'+d.descripcion+'</td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td class="text-info">Familia De Producto:</td>'+
+                    '<td>'+d.sub_familia.familia.nombre+'</td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td class="text-info">Sub-Familia De Producto:</td>'+
+                    '<td>'+d.sub_familia.nombre+'</td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td class="text-info">Foto De Producto:</td>'+
+                    '<td><img src="assets/img/productos/'+d.foto+'"/></td>'+
+                '</tr>'+
+            '</table>';
+        }
+
+    </script>
 
 </body>
 </html>

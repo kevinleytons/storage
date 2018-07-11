@@ -79,10 +79,7 @@ namespace Controllers{
 
 				// Peticiones de Vista "Productos.aspx"
 					case "productos":
-						// Mostrar todos los productos
-						// Cargando recursos
-						p = new Producto();
-						productos = p.FindAllProduct();
+						
 
 					break;
 					
@@ -134,7 +131,7 @@ namespace Controllers{
 							mensaje.Text+=(
 								"<div class='alert alert-success alert-dismissable text-center'>"+
 		                        	"<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+
-		                        	"Producto <span class='alert-link'>"+p.nombre+"</span> Registrado Correctamente! "+
+		                        	"Producto Registrado Correctamente! "+
 		                    	"</div>"
 							);
 						break;
@@ -142,7 +139,7 @@ namespace Controllers{
 						break;
 					}
 					// Cargando Lista de Productos
-					CargarProductos();
+					//CargarProductos();
 
 				break;
 				case "familias":
@@ -221,7 +218,31 @@ namespace Controllers{
 				Convert.ToDateTime(fecha)
 			);
 			p.Insert();
+			GuardarFoto(p);
 			return p;
+		}
+
+		/*
+		*	Guardar foto en server
+		*/
+		// Problemas acá!
+		public bool GuardarFoto(Producto p){
+			bool op = false;
+			string directorio = Server.MapPath("assets/img/productos/");
+			if (foto.HasFile) {
+				string extension = Path.GetExtension(foto.PostedFile.FileName);
+        		if(Directory.Exists(directorio)){
+        			mensaje.Text+=(directorio);
+            		foto.SaveAs(directorio+p.id+extension);
+            		op = true;
+        		}else{
+        			mensaje.Text+=(directorio);
+        			Directory.CreateDirectory(directorio);
+            		foto.SaveAs(directorio+p.id+extension);
+            		op = true;
+        		}
+			}
+			return op;
 		}
 
 		/*
@@ -261,24 +282,6 @@ namespace Controllers{
 			mensaje.Text+=("</ul></div></div>");
 		}
 
-
-		/*
-		*	Cargar Lista Con Productos en vista "Productos.aspx"
-		*/
-		public void CargarProductos(){
-			foreach (Producto producto in productos){
-				listProduct.Text += 
-				("<tr><td>"+producto.id+
-					"</td><td>"+producto.nombre+
-					"</td><td>"+producto.stock+
-					"</td><td>"+producto.precio+
-					"</td><td>"+(producto.visibilidad=='V'?"Visible":"No Visible")+
-					"</td><td>"+(producto.estado=='D'?"Disponible":(producto.estado=='A'?"Agotado":"Crítico"))+"</td></tr>"
-				);
-			}
-		}
-
-
 		/*
 		*	Cargar Familias Para Vista "familias.apsx"
 		*/
@@ -304,6 +307,15 @@ namespace Controllers{
 		}
 
 		/*
+		*	Cargar Lista Con Productos en vista "Productos.aspx"
+		*/
+		[WebMethod]
+		public static List<Producto> CargarProductos(){
+			Producto p = new Producto();
+			return p.FindAllProduct();
+		}
+
+		/*
 		*	WebMethod utilizado con ajax
 		*	Obtener todas las subfamilias de una familia
 		*/
@@ -319,7 +331,6 @@ namespace Controllers{
 			}
 			json = sbfArray.ToString();
 		    return json;
-
 		}
 	}
 }

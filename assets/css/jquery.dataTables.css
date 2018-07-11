@@ -423,6 +423,14 @@ table.dataTable td {
   height: 0;
 }
 
+td.details-control {
+    background: url('/assets/img/datatable/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('/assets/img/datatable/details_close.png') no-repeat center center;
+}
+
 @media screen and (max-width: 767px) {
   .dataTables_wrapper .dataTables_info,
   .dataTables_wrapper .dataTables_paginate {
